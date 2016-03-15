@@ -1,7 +1,7 @@
 function [ output] = PerformOrg(Data,Test,S,Time,Offset)
 % addpath('~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB/')
 Offset=-1*Offset; 
-output=zeros(length(Time)-1,6)*nan;
+output=zeros(length(Time)-1,12)*nan;
 switch Test
 
     %Case for CFT 
@@ -31,6 +31,7 @@ switch Test
                             for i=1:length(IndexTime)-1
                                 x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
                                 y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
+                                dy_val_dt = diff(y_vals);
 %                                 % OUTPUT of the Peformance 
 %                                     % Mean Value 
 %                                 output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
@@ -40,7 +41,11 @@ switch Test
                                 [output(i,1), output(i,2), output(i,3), ...
                                     output(i,4), output(i,5), ~, ...
                                     output(i,6)] = ...
-                                    FeaturesTS(x_vals, y_vals);                            
+                                    FeaturesTS(x_vals, y_vals);
+                                [output(i,7), output(i,8), output(i,9), ...
+                                    output(i,10), output(i,11), ~, ...
+                                    output(i,12)] = ...
+                                    FeaturesTS(dy_val_dt, dy_val_dt);
 
                             end 
                      else 
@@ -51,11 +56,11 @@ switch Test
                          Data=Data(OffsetIndex:end);
                          IndexTime=Time/5;
                             for i=1:length(IndexTime)-1 % This forloop does the time segment increments 
-                                i
                                 IndexTime(i)
                                 if i==(length(IndexTime)-1)
                                     x_vals = Temp(IndexTime(i)+1:end);
                                     y_vals = Temp(IndexTime(i)+1:end);
+                                    dy_val_dt = diff(y_vals);
                                 % OUTPUT of the Peformance 
 %                                 output(i,1)=mean(Temp(IndexTime(i)+1:end));
 %                                      % Max Value 
@@ -64,9 +69,14 @@ switch Test
                                     output(i,4), output(i,5), ~, ...
                                     output(i,6)] = ...
                                     FeaturesTS(x_vals, y_vals);
+                                [output(i,7), output(i,8), output(i,9), ...
+                                    output(i,10), output(i,11), ~, ...
+                                    output(i,12)] = ...
+                                    FeaturesTS(dy_val_dt, dy_val_dt);
                                 else
                                     x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
                                     y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
+                                    dy_val_dt = diff(y_vals);
 %                                 % OUTPUT of the Peformance 
 %                                 output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
 %                                      % Max Val                                
@@ -75,6 +85,10 @@ switch Test
                                     output(i,4), output(i,5), ~,...
                                     output(i,6)] = ...
                                     FeaturesTS(x_vals, y_vals);
+                                [output(i,7), output(i,8), output(i,9), ...
+                                    output(i,10), output(i,11), ~, ...
+                                    output(i,12)] = ...
+                                    FeaturesTS(dy_val_dt, dy_val_dt);
                                 end 
                             end 
 
