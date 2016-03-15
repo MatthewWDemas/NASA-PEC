@@ -9,6 +9,7 @@ clc
 % pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
 pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/';
 addpath(pec_data_path)
+addpath('~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB')
 Fs=256;
 load TimeStampsIn; 
 
@@ -32,7 +33,7 @@ SubL= {'04' '05' '06' '07' '08' '09' '10' '11' '12' '13' '15' '16' ...
        Timing=0:120:600;
        % Data Matrix Holdern
        TimeNum=length(Timing)-1; 
-       DataM=zeros(TimeNum*49*3*3,44)*nan;
+       DataM=zeros(TimeNum*49*3*3,48)*nan;
 % ================================================================
 % ============= R-R Intervals ====================================
 A=zeros(49,2); 
@@ -216,7 +217,9 @@ for j=2:length(STUDY)
                            
                 end 
                 %--------- Feature Input ---------------
-                DataM(1+((njn-1)*TimeNum):(njn)*TimeNum,:)=FeatVect; 
+                njn
+                TimeNum
+                DataM(1+((njn-1)*TimeNum):(njn)*TimeNum,:) = FeatVect; 
                 njn=njn+1;
         end 
     end 
