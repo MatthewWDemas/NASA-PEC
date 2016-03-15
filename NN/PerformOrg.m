@@ -1,7 +1,7 @@
 function [ output] = PerformOrg(Data,Test,S,Time,Offset)
 
 Offset=-1*Offset; 
-output=zeros(length(Time)-1,2)*nan;
+output=zeros(length(Time)-1,6)*nan;
 switch Test
 
     %Case for CFT 
@@ -29,12 +29,18 @@ switch Test
                         Data=Data(OffsetIndex:end);
                         IndexTime=Time/5;
                             for i=1:length(IndexTime)-1
-                                % OUTPUT of the Peformance 
-                                    % Mean Value 
-                                output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
-                                    % Max Value 
-                                output(i,2)=max(Temp(IndexTime(i)+1:IndexTime(i+1)));
-                                
+                                x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
+                                y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
+%                                 % OUTPUT of the Peformance 
+%                                     % Mean Value 
+%                                 output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
+%                                     % Max Value 
+%                                 output(i,2)=max(Temp(IndexTime(i)+1:IndexTime(i+1)));
+
+                                [output(i,1), output(i,2), output(i,3), ...
+                                    output(i,4), output(i,5), ~, ...
+                                    output(i,6)] = ...
+                                    FeaturesTS(x_vals, y_vals);                            
 
                             end 
                      else 
@@ -45,17 +51,30 @@ switch Test
                          Data=Data(OffsetIndex:end);
                          IndexTime=Time/5;
                             for i=1:length(IndexTime)-1 % This forloop does the time segment increments 
+                                i
+                                IndexTime(i)
                                 if i==(length(IndexTime)-1)
+                                    x_vals = Temp(IndexTime(i)+1:end);
+                                    y_vals = Temp(IndexTime(i)+1:end);
                                 % OUTPUT of the Peformance 
-                                output(i,1)=mean(Temp(IndexTime(i)+1:end));
-                                     % Max Value 
-                                output(i,2)=mean(Temp(IndexTime(i)+1:end));
+%                                 output(i,1)=mean(Temp(IndexTime(i)+1:end));
+%                                      % Max Value 
+%                                 output(i,2)=mean(Temp(IndexTime(i)+1:end));
+                                [output(i,1), output(i,2), output(i,3), ...
+                                    output(i,4), output(i,5), ~, ...
+                                    output(i,6)] = ...
+                                    FeaturesTS(x_vals, y_vals);
                                 else
-                                % OUTPUT of the Peformance 
-                                output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
-                                     % Max Val                                
-                                output(i,2)=max(Temp(IndexTime(i)+1:IndexTime(i+1)));
-                                
+                                    x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
+                                    y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
+%                                 % OUTPUT of the Peformance 
+%                                 output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
+%                                      % Max Val                                
+%                                 output(i,2)=max(Temp(IndexTime(i)+1:IndexTime(i+1)));
+                                [output(i,1), output(i,2), output(i,3),...
+                                    output(i,4), output(i,5), ~,...
+                                    output(i,6)] = ...
+                                    FeaturesTS(x_vals, y_vals);
                                 end 
                             end 
 
