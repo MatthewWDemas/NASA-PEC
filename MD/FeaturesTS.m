@@ -17,7 +17,7 @@ function [ts_mean, ts_med, ts_min, ts_max, ts_std, ts_trend,...
     % Get max
     ts_max = max(y_values);
     
-    % Get var
+    % Get std dev
     ts_std = std(y_values);
     
     % Get trend

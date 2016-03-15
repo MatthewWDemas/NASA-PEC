@@ -3,7 +3,7 @@ function [trend, trend_slope] = GetTrend(x_values, y_values, plot_vals)
 % Simple function that takes in a list of values, detrends the values, and
 % then returns the trend.
     if nargin < 3
-        plot_vals = 0
+        plot_vals = 0;
     end
     detrended_values = detrend(y_values);
     trend = y_values - detrended_values;
