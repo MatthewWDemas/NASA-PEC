@@ -9,7 +9,7 @@ clc
 % pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
 pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/';
 addpath(pec_data_path)
-addpath('~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB')
+
 Fs=256;
 load TimeStampsIn; 
 
@@ -217,8 +217,6 @@ for j=2:length(STUDY)
                            
                 end 
                 %--------- Feature Input ---------------
-                njn
-                TimeNum
                 DataM(1+((njn-1)*TimeNum):(njn)*TimeNum,:) = FeatVect; 
                 njn=njn+1;
         end 

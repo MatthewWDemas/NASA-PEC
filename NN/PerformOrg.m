@@ -1,5 +1,5 @@
 function [ output] = PerformOrg(Data,Test,S,Time,Offset)
-
+% addpath('~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB/')
 Offset=-1*Offset; 
 output=zeros(length(Time)-1,6)*nan;
 switch Test
