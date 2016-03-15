@@ -163,8 +163,17 @@ FeatureM=zeros(length(Timing)-1,5);
                FeatureM(i,42)=snr(Data(R_index(Pt1:Pt2),1),Data(R_index(Pt1:Pt2),5));
         %----------- Performance Mean ------------------------
                FeatureM(i,43)=Perform(i,1);
-        % ---------- Performaance Max ------------------------
+        % ---------- Performance Median ------------------------
                FeatureM(i,44)=Perform(i,2);
+        % ---------- Performance Min ------------------------
+               FeatureM(i,45)=Perform(i,3);
+        % ---------- Performance Max ------------------------
+               FeatureM(i,46)=Perform(i,4);
+        % ---------- Performance Std Dev ------------------------
+               FeatureM(i,47)=Perform(i,5);
+        % ---------- Performance Trend (y(end) - y(start) ------------------------
+               FeatureM(i,48)=Perform(i,6);
+               
        %----------- Galvanic Skin Response ---------
                 % Feature 8 
         end 
