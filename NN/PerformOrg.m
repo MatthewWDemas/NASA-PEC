@@ -29,6 +29,10 @@ switch Test
                         Data=Data(OffsetIndex:end);
                         IndexTime=Time/5;
                             for i=1:length(IndexTime)-1
+                                % This is a hack right now...the GetTrend
+                                % function requires x-values for plotting
+                                % functionality only. It returns the
+                                % difference between the 
                                 x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
                                 y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
                                 dy_val_dt = diff(y_vals);
