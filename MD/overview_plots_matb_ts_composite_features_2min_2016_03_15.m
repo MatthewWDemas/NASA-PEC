@@ -198,6 +198,90 @@ subplot(2,3,6)
 histfit(DataM_MATB(:, 48))
 title('Histogram with Normal Fit for Trend Composite MATB Score')
 
+figure;
+subplot(2,3,1)
+h = histfit(DataM_MATB(:, 49))
+h(1).FaceColor = [0.9 0.9 0.9];
+    'FaceColor',...
+    [0.941176474094391 0.941176474094391 0.941176474094391])
+title('Histogram with Normal Fit for Mean Composite MATB Score')
+
+subplot(2,3,2)
+histfit(DataM_MATB(:, 50))
+title('Histogram with Normal Fit for Median Composite MATB Score')
+
+subplot(2,3,3)
+histfit(DataM_MATB(:, 51))
+title('Histogram with Normal Fit for Min Composite MATB Score')
+
+subplot(2,3,4)
+histfit(DataM_MATB(:, 52))
+title('Histogram with Normal Fit for Max Composite MATB Score')
+
+subplot(2,3,5)
+histfit(DataM_MATB(:, 53))
+title('Histogram with Normal Fit for Std Dev Composite MATB Score')
+
+subplot(2,3,6)
+histfit(DataM_MATB(:, 54))
+title('Histogram with Normal Fit for Trend Composite MATB Score')
+
+%------------- QQ Plot --------------------
+figure;
+subplot(2,3,1)
+normplot( DataM_MATB(:, 43))
+title('Q-Q Normal Plot for Mean Composite MATB Score')
+
+subplot(2,3,2)
+normplot( DataM_MATB(:, 44))
+title('Q-Q Normal Plot for Median Composite MATB Score')
+
+subplot(2,3,3)
+normplot( DataM_MATB(:, 45))
+title('Q-Q Normal Plot for Min Composite MATB Score')
+
+subplot(2,3,4)
+normplot( DataM_MATB(:, 46))
+title('Q-Q Normal Plot for Max Composite MATB Score')
+
+subplot(2,3,5)
+normplot( DataM_MATB(:, 47))
+title('Q-Q Normal Plot for Std Dev Composite MATB Score')
+
+subplot(2,3,6)
+normplot( DataM_MATB(:, 48))
+title('Q-Q Normal Plot for Trend Composite MATB Score')
+
+figure;
+subplot(2,3,1)
+normplot( DataM_MATB(:, 49))
+title('Q-Q Normal Plot for Mean Composite MATB Score')
+
+subplot(2,3,2)
+normplot( DataM_MATB(:, 50))
+title('Q-Q Normal Plot for Median Composite MATB Score')
+
+subplot(2,3,3)
+normplot( DataM_MATB(:, 51))
+title('Q-Q Normal Plot for Min Composite MATB Score')
+
+subplot(2,3,4)
+normplot( DataM_MATB(:, 52))
+title('Q-Q Normal Plot for Max Composite MATB Score')
+
+subplot(2,3,5)
+normplot( DataM_MATB(:, 53))
+title('Q-Q Normal Plot for Std Dev Composite MATB Score')
+
+subplot(2,3,6)
+normplot( DataM_MATB(:, 54))
+title('Q-Q Normal Plot for Trend Composite MATB Score')
+PrintFigPDF(matb_comb_min_fig, ...
+    '~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/Export/PostLaRC_2016-02-22/matb_ts_composite_score_min_2016_03_15.pdf')
+
+
+
+
 %     figure
 %     plot(subj_scores_nh(:,37),...
 %         subj_scores_nh(:,47))
