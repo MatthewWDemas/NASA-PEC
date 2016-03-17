@@ -7,8 +7,8 @@ function [trend, trend_slope] = GetTrend(x_values, y_values, plot_vals)
     end
     detrended_values = detrend(y_values);
     trend = y_values - detrended_values;
-%     trend_slope = (trend(2) - trend(1))/(x_values(2) - x_values(1));
-    trend_slope = (trend(2) - trend(1));
+%     trend_slope = (trend(end) - trend(1))/(x_values(end) - x_values(1));
+    trend_slope = (trend(end) - trend(1));
     
     if plot_vals == 1
         figure;
