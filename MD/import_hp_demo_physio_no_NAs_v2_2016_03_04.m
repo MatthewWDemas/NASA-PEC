@@ -135,3 +135,5 @@ pec_data.TypeOfRun = data(:,94);
 
 %% Clear temporary variables
 clearvars data raw cellVectors R;
+
+save pec_data;

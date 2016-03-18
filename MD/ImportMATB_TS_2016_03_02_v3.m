@@ -45,3 +45,5 @@ matb_ts.Time = data(:,5);
 
 %% Clear temporary variables
 clearvars data raw cellVectors R;
+
+save matb_ts;
