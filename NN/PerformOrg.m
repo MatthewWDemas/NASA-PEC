@@ -15,8 +15,10 @@ switch Test
         Temp=Data(2:end,S); 
         Temp=Temp(~isnan(Temp)); 
         if ~isempty(Temp)
-        DT=length(Temp)*5;   % Sampling at 5 seconds: This is the time interval
-                 if isnan(Offset)  % if there is no experimental marker we assume 60 seconds
+        DT=length(Temp)*5;   % Sampling at 5 seconds: This is the time 
+                             % interval
+                 if isnan(Offset)  % if there is no experimental marker we 
+                                   % assume 60 seconds
                      Offset=60; 
                  end 
         TDiff=DT-(Time(end)+Offset); % TIme Difference;
@@ -38,9 +40,11 @@ switch Test
                                 dy_val_dt = diff(y_vals);
 %                                 % OUTPUT of the Peformance 
 %                                     % Mean Value 
-%                                 output(i,1)=mean(Temp(IndexTime(i)+1:IndexTime(i+1)));
+%                                 output(i,1)=mean(Temp(IndexTime(i)+1:...
+%                                                  IndexTime(i+1)));
 %                                     % Max Value 
-%                                 output(i,2)=max(Temp(IndexTime(i)+1:IndexTime(i+1)));
+%                                 output(i,2)=max(Temp(IndexTime(i)+1:...
+%                                                 IndexTime(i+1)));
 
                                 [output(i,1), output(i,2), output(i,3), ...
                                     output(i,4), output(i,5), ~, ...
@@ -59,7 +63,9 @@ switch Test
                          end 
                          Data=Data(OffsetIndex:end);
                          IndexTime=Time/5;
-                            for i=1:length(IndexTime)-1 % This forloop does the time segment increments 
+                            for i=1:length(IndexTime)-1 % This forloop does 
+                                                        % the time segment 
+                                                        % increments 
                                 IndexTime(i)
                                 if i==(length(IndexTime)-1)
                                     x_vals = Temp(IndexTime(i)+1:end);

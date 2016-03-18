@@ -28,7 +28,8 @@ load DataPerformance
               % CTF SL 
                     % Participate Order 
                    [~,I]=sort(MATBSL(1,:));
-                   % ******** CFT PATCH ********* NEED TO GET ADDITIONAL PARTICIAPTE 
+                   % ******** CFT PATCH ********* 
+                   % NEED TO GET ADDITIONAL PARTICIAPTE 
                    MATBSL=[ones(length(MATBSL(:,1)),1)*nan,MATBSL(:,I)];
                 % FIRST PATCH FIX: MATBSL=MATBSL(:,I);
               % CFT 15k
@@ -78,7 +79,8 @@ load DataPerformance
 %                      % Preprocessing Performance  
 %                     if S==1;  % CFT 
 %                         Temp=CFT{Run}; 
-%                         if P<length(Temp(1,:))  % ******** CFT or CogS PATCH ********* NEED TO DEFINE COGS AND CFT
+%                         if P<length(Temp(1,:))  
+% ******** CFT or CogS PATCH ********* NEED TO DEFINE COGS AND CFT
 %                            Temp=Temp(2:end,P);
 %                         else 
 %                              break
