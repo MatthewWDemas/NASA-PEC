@@ -1,7 +1,13 @@
 function [ output] = PerformOrg(Data,Test,S,Time,Offset)
 % addpath('~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB/')
 
-% Data = 
+
+% Data = Perform{3}{2};
+% Test = 3;
+% S = 48;
+% Time = ;
+% Offset = ;
+
 
 Offset=-1*Offset;
 output=zeros(length(Time)-1,12)*nan;
@@ -20,10 +26,18 @@ switch Test
         % OUTPUT: 5 rows of vector of length 12 that represent the 6
         % features extracted for both the HP measure value and the
         % derivative of the measure value.
-        Composite
-        Comm
-        ResMan
-        Track
+%         EXCLUDED: Composite and Room Air Trials
+%         Comm
+        output_comm = WindowedSubscoreFeatureExtractorMATB(...
+            Data{1}, S, Time, Offset);
+%         ResMan
+        output_resman = WindowedSubscoreFeatureExtractorMATB(...
+            Data{2}, S, Time, Offset);
+%         Track
+        output_track = WindowedSubscoreFeatureExtractorMATB(...
+            Data{3}, S, Time, Offset);
+        
+        output = horzcat(output_comm, output_resman, output_track);
 %---------------- SIM ------------------------------
     case 4
         output=output;
