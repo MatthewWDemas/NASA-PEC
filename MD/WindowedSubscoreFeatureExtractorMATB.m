@@ -1,4 +1,5 @@
-function [ output ] = WindowedSubscoreFeatureExtractorMATB( Data,S,Time,Offset )
+function [ output ] = WindowedSubscoreFeatureExtractorMATB( Data, S, ...
+    Time, Offset, output)
 %WindowedSubscoreFeatureExtractorMATB Calculates features from given MATB
 %subscore.
 %   INPUT: Data, S (Subject), Time, Offset
