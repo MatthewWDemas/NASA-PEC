@@ -162,7 +162,7 @@ FeatureM=zeros(length(Timing)-1,5);
         %----------- HR SNR -----------------------
                FeatureM(i,42)=snr(Data(R_index(Pt1:Pt2),1),Data(R_index(Pt1:Pt2),5));
         %----------- HP Features ------
-               FeatureM(i,43:54) = Perform(i,1:12);
+               FeatureM(i,43:78) = Perform(i,1:36);
 %         %----------- Performance Mean ------------------------
 %                FeatureM(i,43)=Perform(i,1);
 %         % ---------- Performance Median ------------------------
