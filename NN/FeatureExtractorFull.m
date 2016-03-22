@@ -161,30 +161,32 @@ FeatureM=zeros(length(Timing)-1,5);
                 FeatureM(i,41)=Proto;   
         %----------- HR SNR -----------------------
                FeatureM(i,42)=snr(Data(R_index(Pt1:Pt2),1),Data(R_index(Pt1:Pt2),5));
-        %----------- Performance Mean ------------------------
-               FeatureM(i,43)=Perform(i,1);
-        % ---------- Performance Median ------------------------
-               FeatureM(i,44)=Perform(i,2);
-        % ---------- Performance Min ------------------------
-               FeatureM(i,45)=Perform(i,3);
-        % ---------- Performance Max ------------------------
-               FeatureM(i,46)=Perform(i,4);
-        % ---------- Performance Std Dev ------------------------
-               FeatureM(i,47)=Perform(i,5);
-        % ---------- Performance Trend (y(end) - y(start) ------------------------
-               FeatureM(i,48)=Perform(i,6);
-        %----------- dPerformance/dt Mean ------------------------
-               FeatureM(i,49)=Perform(i,7);
-        % ---------- dPerformance/dt Median ------------------------
-               FeatureM(i,50)=Perform(i,8);
-        % ---------- dPerformance/dt Min ------------------------
-               FeatureM(i,51)=Perform(i,9);
-        % ---------- dPerformance/dt Max ------------------------
-               FeatureM(i,52)=Perform(i,10);
-        % ---------- dPerformance/dt Std Dev ------------------------
-               FeatureM(i,53)=Perform(i,11);
-        % ---------- dPerformance/dt Trend (y(end) - y(start) ------------------------
-               FeatureM(i,54)=Perform(i,12);
+        %----------- HP Features ------
+               FeatureM(i,43:54) = Perform(i,1:12);
+%         %----------- Performance Mean ------------------------
+%                FeatureM(i,43)=Perform(i,1);
+%         % ---------- Performance Median ------------------------
+%                FeatureM(i,44)=Perform(i,2);
+%         % ---------- Performance Min ------------------------
+%                FeatureM(i,45)=Perform(i,3);
+%         % ---------- Performance Max ------------------------
+%                FeatureM(i,46)=Perform(i,4);
+%         % ---------- Performance Std Dev ------------------------
+%                FeatureM(i,47)=Perform(i,5);
+%         % ---------- Performance Trend (y(end) - y(start) ------------------------
+%                FeatureM(i,48)=Perform(i,6);
+%         %----------- dPerformance/dt Mean ------------------------
+%                FeatureM(i,49)=Perform(i,7);
+%         % ---------- dPerformance/dt Median ------------------------
+%                FeatureM(i,50)=Perform(i,8);
+%         % ---------- dPerformance/dt Min ------------------------
+%                FeatureM(i,51)=Perform(i,9);
+%         % ---------- dPerformance/dt Max ------------------------
+%                FeatureM(i,52)=Perform(i,10);
+%         % ---------- dPerformance/dt Std Dev ------------------------
+%                FeatureM(i,53)=Perform(i,11);
+%         % ---------- dPerformance/dt Trend (y(end) - y(start) ------------------------
+%                FeatureM(i,54)=Perform(i,12);
        %----------- Galvanic Skin Response ---------
                 % Feature 8 
         end 
