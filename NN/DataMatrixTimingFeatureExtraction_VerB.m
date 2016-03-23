@@ -9,6 +9,11 @@ clc
 % pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
 pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/';
 addpath(pec_data_path);
+pec_nn_path = '~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB/NN/';
+pec_md_path = '~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB/MD/';
+addpath(pec_nn_path);
+addpath(pec_md_path);
+
 
 Fs=256;
 load TimeStampsIn; 
