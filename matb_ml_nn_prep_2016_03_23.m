@@ -6,22 +6,22 @@
 %     1) Neural Net: array (HP features) and vector (responses)
 %     2) Machine Learning: Array (HP Features + Responses)
 %     
-% Features:
+% Features (cols 43-78):
 %     A) Scores (Comm, ResMan, Tracking)
 %     B) Features (Mean, Median, Min, Max, Std Dev, Trend Slope)
 %     C) Manipulations (Raw, 1st order derivative)
 % 
 % Responses:
-%     A) Trial Hypoxic/Non-Hypoxic
-%     B) O2 Concentration (Hypoxic/Non-Hypoxic)
-%     C) O2 Saturation (Hypoxic Stable/Non-Hypoxic)
+%     A) Trial Hypoxic/Non-Hypoxic (col 38)
+%     B) O2 Concentration (Hypoxic/Non-Hypoxic) (col 35)
+%     C) O2 Saturation (Hypoxic Stable/Non-Hypoxic) (col 36)
 % 
 % INPUT:
 %     DataM: array of features + responses
 % 
 % OUTPUT:
 %     For Machine Learning Toolbox:
-%         DataM_ml: Array of features + responses
+%         DataM_ml: Array of z-scored features + responses
 %     For Neural Net Toolbox:
 %         DataM_nn_feat: Array of HP features
 %         DataM_nn_respA: Vector of Trial
@@ -29,4 +29,33 @@
 %         DataM_nn_respC: Vector of O2 Saturations (Stable High or Low)
 
 load('../DataExportMATLAB/DataM_2016_03_23.mat')
+
+% Remove RA trials
+DataM_noRA = DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3, :);
+
+DataM_nn_feat = zscore(DataM_noRA(:, [43:78]));
+
+DataM_nn_respA = DataM_noRA(:, 38);
+tmp1 = DataM_noRA(:, 35);
+tmp2 = 15 * ones(size(tmp1));
+DataM_nn_respB = sign(tmp1 - tmp2);
+DataM_nn_respC = DataM_noRA(:, 36);
+
+DataM_ml = horzcat(...
+    DataM_nn_respA,...
+    DataM_nn_respB,...
+    DataM_nn_respC,...
+    DataM_nn_feat);
+
+% not z-scored, no outliers removed
+%save('../DataExportMATLAB/MachineLearningData_v1_2016_03_23.mat',...
+% z-scored, outliers (std dev > 3) removed
+save('../DataExportMATLAB/MachineLearningData_v2_2016_03_23.mat',...
+    'DataM_nn_feat',...
+    'DataM_nn_respA',...
+    'DataM_nn_respB',...
+    'DataM_nn_respC',...
+    'DataM_ml');
+
+
 
