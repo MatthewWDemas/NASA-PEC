@@ -1,11 +1,4 @@
 function [ output] = PerformOrg(Data,Test,S,Time,Offset)
-% addpath('~/Box Sync/Nasa Flight Data/DataAnalysis_Matt/NASA-PEC-MATLAB/')
-
-% Data = Perform{3}{2};
-% Test = 3;
-% S = 48;
-% Time = ;
-% Offset = ;
 
 Offset=-1*Offset;
 input_output=zeros(length(Time)-1,12)*nan;
@@ -23,10 +16,12 @@ switch Test
         % Construct output vectors for each subscore measure
         % Use WindowedSubscoreFeatureExtractorMATB
         % INPUT: Data, S (Subject), Time, Offset
-        % OUTPUT: 5 rows of vector of length 12 that represent the 6
-        % features extracted for both the HP measure value and the
-        % derivative of the measure value.
+        % OUTPUT: N rows (currently 5, depending on number of time 
+        % intervals specified of vector of length M (currently 12) that 
+        % represents the 6 features extracted for both the HP measure 
+        % value and the derivative of the measure value.
         % EXCLUDED: Composite and Room Air Trials
+        %
         % Comm 
         output_comm = WindowedSubscoreFeatureExtractorMATB(...
             Data{1}, S, Time, Offset, input_output);
