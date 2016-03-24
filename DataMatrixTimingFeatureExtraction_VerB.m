@@ -229,4 +229,4 @@ for j=2:length(STUDY)
     end 
 end 
 toc 
-save('DataMatrixSeta_ZScoreFullTime_M3')
+save('DataMatrixSeta_ZScoreFullTime_M3_2016_03_24')
