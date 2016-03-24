@@ -7,10 +7,15 @@ function [trend, trend_slope, detrended_values] = GetTrend(x_values, ...
 %   - trend_slope: the difference in starting and ending points of trend
 %   - detrended_values: y(t) with trend removed
 
+    % If there aren't enough values, automatically assumes that plots are
+    % not desired.
     if nargin < 3
         plot_vals = 0;
     end
-    detrended_values = detrend(y_values);
+    
+    % Remove best fit line from data, add back the mean, find the trend.
+    tmp = detrend(y_values);
+    detrended_values = detrend(tmp) + mean(y_values);
     trend = y_values - detrended_values;
 %     trend_slope = (trend(end) - trend(1))/(x_values(end) - x_values(1));
     trend_slope = (trend(end) - trend(1));
@@ -31,4 +36,6 @@ function [trend, trend_slope, detrended_values] = GetTrend(x_values, ...
 end
 
 % TODO:
-%  - Return slope of trend instead of difference in y-values.
+%  - Return slope of trend instead of difference in y-values (use function
+%  polyfit).
+%  - Handle missing x-values by assuming arbitrary unit values.
