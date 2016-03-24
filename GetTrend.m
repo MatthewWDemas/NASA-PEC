@@ -1,7 +1,12 @@
-function [trend, trend_slope] = GetTrend(x_values, y_values, plot_vals)
-%GetTrend
-% Simple function that takes in a list of values, detrends the values, and
-% then returns the trend.
+function [trend, trend_slope, detrended_values] = GetTrend(x_values, ...
+    y_values, plot_vals)
+%GetTrend returns the trend, trend_slop, and detrended values.
+% INPUT: t, y(t), and binary value whether to plot y(t) and TREND(y(t)).
+% OUTPUT: 
+%   - trend: trend line at each input time step.
+%   - trend_slope: the difference in starting and ending points of trend
+%   - detrended_values: y(t) with trend removed
+
     if nargin < 3
         plot_vals = 0;
     end
@@ -25,3 +30,5 @@ function [trend, trend_slope] = GetTrend(x_values, y_values, plot_vals)
     end
 end
 
+% TODO:
+%  - Return slope of trend instead of difference in y-values.
