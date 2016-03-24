@@ -6,8 +6,9 @@ function [ output ] = WindowedSubscoreFeatureExtractorMATB( Data, S, ...
 %   OUTPUT: 5 rows of vector of length 12 that represent the 6
 %   features extracted for both the HP measure value and the
 %   derivative of the measure value.
+
 %   Original data contained a header row, new data does not.
-%         Temp=Data(2:end,S);
+% Temp=Data(2:end,S);
 Temp=Data(:,S);
 Temp=Temp(~isnan(Temp));
 if ~isempty(Temp)
@@ -32,7 +33,8 @@ if ~isempty(Temp)
             % difference between the
             x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
             y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
-            dy_val_dt = diff(y_vals);
+            [~, ~, y_vals_detrend] = GetTrend(x_vals, y_vals);
+            dy_val_dt = diff(y_vals_detrend);
             [output(i,1), output(i,2), output(i,3), ...
                 output(i,4), output(i,5), ~, ...
                 output(i,6)] = ...
@@ -54,7 +56,8 @@ if ~isempty(Temp)
             if i==(length(IndexTime)-1)
                 x_vals = Temp(IndexTime(i)+1:end);
                 y_vals = Temp(IndexTime(i)+1:end);
-                dy_val_dt = diff(y_vals);
+                [~, ~, y_vals_detrend] = GetTrend(x_vals, y_vals);
+                dy_val_dt = diff(y_vals_detrend);
                 [output(i,1), output(i,2), output(i,3), ...
                     output(i,4), output(i,5), ~, ...
                     output(i,6)] = ...
@@ -66,7 +69,8 @@ if ~isempty(Temp)
             else
                 x_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
                 y_vals = Temp(IndexTime(i)+1:IndexTime(i+1));
-                dy_val_dt = diff(y_vals);
+                [~, ~, y_vals_detrend] = GetTrend(x_vals, y_vals);
+                dy_val_dt = diff(y_vals_detrend);
                 [output(i,1), output(i,2), output(i,3),...
                     output(i,4), output(i,5), ~,...
                     output(i,6)] = ...
