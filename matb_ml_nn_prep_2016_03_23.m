@@ -31,15 +31,33 @@
 load('../DataExportMATLAB/DataM_2016_03_23.mat')
 
 % Remove RA trials
-DataM_noRA = DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3, :);
+DataM_noRA = zscore(DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3, [35 36 38 43:78]));
 
-DataM_nn_feat = zscore(DataM_noRA(:, [43:78]));
+% tmp = RemoveOutliers(DataM_noRA(:, [4:end]));
+tmp = RemoveOutliers(DataM_noRA);
+tmpA = RemoveOutliers(tmp);
+tmpB = RemoveOutliers(tmpA);
+tmpC = RemoveOutliers(tmpB);
+tmpD = RemoveOutliers(tmpC);
+tmpE = RemoveOutliers(tmpD);
+tmpF = RemoveOutliers(tmpE);
+tmpG = RemoveOutliers(tmpF);
+tmpH = RemoveOutliers(tmpG);
+tmpI = RemoveOutliers(tmpH);
+tmpJ = RemoveOutliers(tmpI);
+tmpK = RemoveOutliers(tmpJ);
+tmpL = RemoveOutliers(tmpK);
+tmpM = RemoveOutliers(tmpL);
+tmpN = RemoveOutliers(tmpM);
 
-DataM_nn_respA = DataM_noRA(:, 38);
-tmp1 = DataM_noRA(:, 35);
-tmp2 = 15 * ones(size(tmp1));
-DataM_nn_respB = sign(tmp1 - tmp2);
-DataM_nn_respC = DataM_noRA(:, 36);
+DataM_nn_feat = tmpM(:, 4:end);
+
+DataM_nn_respA = tmpM(:, 3);
+% tmp1 = tmpM(:, 1);
+% tmp2 = 15 * ones(size(tmp1));
+% DataM_nn_respB = sign(tmp1 - tmp2);
+DataM_nn_respB = sign(tmpM(:,1));
+DataM_nn_respC = tmpM(:, 2);
 
 DataM_ml = horzcat(...
     DataM_nn_respA,...
