@@ -76,7 +76,9 @@ ttestpval_classes(ttestpval_classes <= 0.05) = 3;
 ttestpval_classes(ttestpval_classes <= 0.1 & ...
     ttestpval_classes > 0.05) = 2;
 ttestpval_classes(ttestpval_classes > 0.1 & ...
-    ttestpval_classes < 1.0) = 1;
+    ttestpval_classes < 1.0 | isnan(ttestpval_classes)) = 0;
+ttestpval_classes_total = sum(ttestpval_classes);
+ttestpval_classes = vertcat(ttestpval_classes, ttestpval_classes_total);
 
 figure
 b = bar3(ttestpval_classes)
