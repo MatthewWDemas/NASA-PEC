@@ -10,17 +10,26 @@ ttestpval = zeros(36);
 ttestsignif = zeros(36);
 hp_count = 0;
 
-hp_deriv = [49:54 61:66 73:78];
+% Selection for all derivative-based features except: (1) standard 
+% deviation (always positive), (2) Min Tracking (always negative), (3) Max
+% Tracking (always positive).
+% Comm (y)    43-48
+% Comm (y')   49-54
+% ResMan (y)  55-60
+% ResMan (y') 61-66
+% Track (y)   67-72
+% Track (y')  73-78
 
+hp_deriv = [49 50 54 61 62 66 73 74 78]; 
 
 % Go through the HP features
 for hp_feat = 43:78
-    hp_feat = 77; % Test Code
+%     hp_feat = 75; % Test Code
     hp_count = hp_count + 1;
     phys_count = 0;
 % Go through the physio vars
     for phys_feat = [1:34 36 42]
-        phys_feat = 1; % Test Code
+%         phys_feat = 1; % Test Code
         phys_count = phys_count + 1;
         tmp = DataM_noRA(:, [phys_feat hp_feat]);
         tmp(any(isnan(tmp),2),:) = [];
@@ -47,9 +56,10 @@ save('../DataExportMATLAB/PreliminaryTTestResults_rows_physio_cols_hp_feat_v2.ma
     'ttestpval');
 
 figure
-b = bar3(ttestpval)
+b = bar3(1 - ttestpval)
 ylabel('Physio Features')
 xlabel('HP Features')
+title('Plot of 1 - p-Value of t-Tests')
 colorbar
 
 for k = 1:length(b)
@@ -58,6 +68,31 @@ for k = 1:length(b)
     b(k).FaceColor = 'interp';
 end
 
+% Hard to tell which are below 0.05
+% Convert into three classes (1 >> less than 0.05, 2 >> between 0.05 and 1,
+% 3 greater than 1.
+ttestpval_classes = ttestpval;
+ttestpval_classes(ttestpval_classes <= 0.05) = 3;
+ttestpval_classes(ttestpval_classes <= 0.1 & ...
+    ttestpval_classes > 0.05) = 2;
+ttestpval_classes(ttestpval_classes > 0.1 & ...
+    ttestpval_classes < 1.0) = 1;
+
+figure
+b = bar3(ttestpval_classes)
+ylabel('Physio Features')
+xlabel('HP Features')
+title('Plot of Classed p-Values of t-Tests')
+colorbar
+
+for k = 1:length(b)
+    zdata = b(k).ZData;
+    b(k).CData = zdata;
+    b(k).FaceColor = 'interp';
+end
+
+[xcol, ycol] = find(ttestpval_classes == 3);
+signif_pairings = horzcat(xcol + 42, ycol);
 
 figure
 b = bar3(ttestsignif)
