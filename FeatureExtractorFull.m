@@ -162,6 +162,23 @@ FeatureM=zeros(length(Timing)-1,5);
         %----------- HR SNR -----------------------
                FeatureM(i,42)=snr(Data(R_index(Pt1:Pt2),1),Data(R_index(Pt1:Pt2),5));
         %----------- HP Features ------
+        % Score   | Deriv?  |  Cols
+        % ------- | ------- | ----------
+        % Comm    | (y)     |  43-48
+        % Comm    | (y')    |  49-54
+        % ResMan  | (y)     |  55-60
+        % ResMan  | (y')    |  61-66
+        % Track   | (y)     |  67-72
+        % Track   | (y')    |  73-78
+        %
+        % Feature Type: col # - start_col - 1 = Feature
+        % Feature #:
+        % 1: Mean
+        % 2: Median
+        % 3: Min
+        % 4: Max
+        % 5: Std Dev
+        % 6: Trend "Slope"
                FeatureM(i,43:78) = Perform(i,1:36);
 %         %----------- Performance Mean ------------------------
 %                FeatureM(i,43)=Perform(i,1);
