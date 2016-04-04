@@ -2,9 +2,18 @@
 % Product 2 HP...Version 3 (HP Product 2 + Physio)
 % DataM
 
-% Data version: 1 corresponds to 'raw' features, 2 corresponds to 'scaled'
-% individualized features.
-data_version = 2;
+% --------------------------- CASE STATEMENT ASSIGNMENT ------------------
+% Data version: 
+% 1) corresponds to 'raw' features, 
+% 2) corresponds to 'scaled' individualized features.
+% 3) corresponds to 'scaled' individualized features but not z-scored 
+%     then signed
+% 4) corresponds to 'scaled' individualized features  but not z-scored 
+%     then signed with 1st time instance removed.
+data_version = 4;
+
+% Test Code Execution?
+exec_test_code = 0;
 
 switch data_version
     case 1
@@ -325,17 +334,25 @@ switch data_version
         plot(ttestsignif_total)
         xlabel('Individualized HP Feature')
         ylabel('# of significant t-tests)')
-        title('Number of Significant T-Tests for Individualized HP Features')
+        title({'Number of Significant T-Tests for Individualized HP Features'; ...
+            '(1st Time Instance Removed)'})
         grid on
+        PrintFigPDF('../DataExportMATLAB/CountSignifTTest_Physio-HP_1stTimeIntRemoved_2016_04_04.pdf',...
+            gcf)
+        
 end
 % -------------------- TEST CODE ---------------------
-ttestsignif(any(isnan(ttestsignif),2),:) = [];
-sum(ttestsignif)
-figure;
-plot(sum(ttestsignif.'))
-title('Physio Feature with Number of Positive T-Tests')
-% Get z-score
-% Get signed value
-% Split data array into 2 (based on pos/neg HP signed z-scored features)
-% Conduct t-test
-% store p-value in matrix (below diagonal missing)
+
+switch exec_test_code
+    case 1
+        ttestsignif(any(isnan(ttestsignif),2),:) = [];
+        sum(ttestsignif)
+        figure;
+        plot(sum(ttestsignif.'))
+        title('Physio Feature with Number of Positive T-Tests')
+        % Get z-score
+        % Get signed value
+        % Split data array into 2 (based on pos/neg HP signed z-scored features)
+        % Conduct t-test
+        % store p-value in matrix (below diagonal missing)
+end
