@@ -8,14 +8,14 @@ print_plots = 0;
 
 switch selected_feature
     case 1 % Comm Trend Slope
-        FeatArr_ml(:, 115) = sign(zscore(FeatArr(:,84)));
+        FeatArr_ml(:, 115) = sign(zscore(FeatArr_ml(:,84)));
     case 2 % Resman Std Deviation
         % 17 + 78 = 95
 %         FeatArr_ml(:, 115) = sign(zscore(FeatArr(:,95)));
-        FeatArr_ml(:, 115) = sign(FeatArr(:,95));
+        FeatArr_ml(:, 115) = sign(FeatArr_ml(:,95));
         FeatArr_ml(any(FeatArr_ml(:,37) == 1,2), :) = [];
-    case 3
-        FeatArr_ml(:, 115) = sign(FeatArr(:,79));
+    case 3 % Comm Individualized Mean
+        FeatArr_ml(:, 115) = sign(FeatArr_ml(:,79));
         FeatArr_ml(FeatArr_ml(:, 115) == 0,115) = 1;
 end
 
