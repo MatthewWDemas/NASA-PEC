@@ -10,7 +10,7 @@
 %     then signed
 % 4) corresponds to 'scaled' individualized features  but not z-scored 
 %     then signed with 1st time instance removed.
-data_version = 4;
+data_version = 5;
 
 % Test Code Execution?
 exec_test_code = 0;
@@ -340,6 +340,83 @@ switch data_version
         PrintFigPDF('../DataExportMATLAB/CountSignifTTest_Physio-HP_1stTimeIntRemoved_2016_04_04.pdf',...
             gcf)
     case 5 % Comparison between raw, y1 diff, and lagged diff
+        % --------- FROM CASE 1 ------------------------------
+        load('../DataExportMATLAB/DataMatrixSeta_ZScoreFullTime_M3_2016_03_24.mat');
+        
+        DataM_noRA = DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3, :);
+                
+        ttestpval = zeros(36);
+        ttestsignif = zeros(36);
+        hp_count = 0;
+        
+        % Selection for all derivative-based features except: (1) standard
+        % deviation (always positive), (2) Min Tracking (always negative), (3) Max
+        % Tracking (always positive).
+        % Comm (y)    43-48
+        % Comm (y')   49-54
+        % ResMan (y)  55-60
+        % ResMan (y') 61-66
+        % Track (y)   67-72
+        % Track (y')  73-78
+        
+        hp_deriv = [49 50 54 61 62 66 73 74 78];
+        
+        % Go through all HP features
+        for hp_feat = 43:78
+            %     hp_feat = 75; % Test Code
+            hp_count = hp_count + 1;
+            phys_count = 0;
+            % Go through the physio vars
+            for phys_feat = [1:34 36 42]
+                %         phys_feat = 1; % Test Code
+                phys_count = phys_count + 1;
+                tmp = DataM_noRA(:, [phys_feat hp_feat]);
+                tmp(any(isnan(tmp),2),:) = [];
+                % Check if feature is in list of derivatives
+                if any(abs(hp_feat - hp_deriv) < 1e-10)
+                    tmpz = tmp;
+                else
+                    tmpz = zscore(tmp);
+                end
+                tmpz(:,3) = sign(tmpz(:,2));
+                tmpAbove = tmpz(tmpz(:,3) >= 0,:);
+                tmpBelow = tmpz(tmpz(:,3) < 0,:);
+                [ttestsignif(phys_count, hp_count), ...
+                    ttestpval(phys_count, hp_count)] = ...
+                    ttest2(tmpAbove(:,1), tmpBelow(:,1));
+            end
+        end
+        
+        ttestpval_classes = ttestpval;
+        ttestpval_classes(ttestpval_classes <= 0.0005) = 5;
+        ttestpval_classes(ttestpval_classes <= 0.005 & ...
+            ttestpval_classes > 0.0005) = 4;
+        ttestpval_classes(ttestpval_classes <= 0.05 & ...
+            ttestpval_classes > 0.005) = 3;
+        ttestpval_classes(ttestpval_classes <= 0.1 & ...
+            ttestpval_classes > 0.05) = 2;
+        ttestpval_classes(ttestpval_classes > 0.1 & ...
+            ttestpval_classes < 1.0 | isnan(ttestpval_classes)) = 0;
+        
+        figure;
+        b = bar3(ttestpval_classes)
+        ylabel('Raw Physio Features')
+        xlabel('Raw HP Features')
+        title('Plot of p-value of t-tests')
+        colormap('gray')
+        colormap(flipud(colormap))
+%         caxis([0,5]);
+        colorbar
+        
+        for k = 1:length(b)
+            zdata = b(k).ZData;
+            b(k).CData = zdata;
+            b(k).FaceColor = 'interp';
+        end
+        
+        savefig('../DataExportMATLAB/classified_pval_ttests_raw_scores_2016_04_06.fig')
+        
+        % --------- FROM CASE 5 ------------------------------
         load('../DataExportMATLAB/mod_DataM_array_indiv_phys_hp_feat_mthd_3.mat'); % DataM_diff_y1
         load('../DataExportMATLAB/mod_DataM_array_indiv_phys_hp_feat_lagged_mthd_3.mat'); % DataM_lag_diff
         
@@ -369,8 +446,8 @@ switch data_version
             'Change since 1st Time Instance',...
             'Change since Previous Time Instance',...
             'location', 'best')
-        savefig(gcf,...
-            '../DataExportMATLAB/num_signif_ttests_unindiv_y1diff_lagdiff_v1_2016_04_04.fig')
+%         savefig(gcf,...
+%             '../DataExportMATLAB/num_signif_ttests_unindiv_y1diff_lagdiff_v1_2016_04_04.fig')
             
         figure;
         ttest_plot_vals = vertcat(ttestsignifraw_total, ...
@@ -386,8 +463,36 @@ switch data_version
             'Change since 1st Time Instance',...
             'Change since Previous Time Instance',...
             'location', 'best')
+%         savefig(gcf,...
+%             '../DataExportMATLAB/bar_chart_num_signif_ttests_unindiv_y1diff_lagdiff_v1_2016_04_04.fig')
+
+        figure;
+        subplot(3,1,1)
+        bar(ttestsignifraw_total)
+        title('Number of Significant t-tests between Un-individualized Physio and HP Features');
+        ylim([0 16])
+        subplot(3,1,2)
+        bar(ttsignif_y1diff_total)
+        ylim([0 16])
+        title({'Number of Significant t-tests between Individualized Physio and HP Features'; 'Change since 1st Time Instance'});
+        subplot(3,1,3)
+        bar(ttsignif_lagdiff_total)
+        ylim([0 16])
+        title({'Number of Significant t-tests between Individualized Physio and HP Features';...
+            'Change since Previous Time Instance'});
+        xlabel('Individualized HP Feature Number')
+        ylabel('# of Significant t-tests')
         savefig(gcf,...
-            '../DataExportMATLAB/bar_chart_num_signif_ttests_unindiv_y1diff_lagdiff_v1_2016_04_04.fig')
+            '../DataExportMATLAB/subplot_bar_chart_num_signif_ttests_unindiv_y1diff_lagdiff_v1_2016_04_05.fig')
+        
+        ttestpval_classes = ttestpval;
+        ttestpval_classes(ttestpval_classes <= 0.005) = 4;
+        ttestpval_classes(ttestpval_classes <= 0.05 & ...
+            ttestpval_classes > 0.005) = 3;
+        ttestpval_classes(ttestpval_classes <= 0.1 & ...
+            ttestpval_classes > 0.05) = 2;
+        ttestpval_classes(ttestpval_classes > 0.1 & ...
+            ttestpval_classes < 1.0 | isnan(ttestpval_classes)) = 0;
 end
 % -------------------- TEST CODE ---------------------
 
