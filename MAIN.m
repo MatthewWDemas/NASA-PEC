@@ -12,6 +12,8 @@ clc
 % pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
 pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/';
 addpath(pec_data_path);
+addpath('../SharedDataExport/');
+
 
 
 Fs=256;
