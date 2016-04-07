@@ -9,7 +9,7 @@ t=R_t(index);
 
 time=(1/Fs):1/Fs:R_t(index);
 
-
+% Figure Display
 figure;
 plot(time,Data(1:R_index(index),1),'linewidth',1.5)
 hold on 
