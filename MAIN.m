@@ -9,12 +9,12 @@ clc
 % warning for mine. Likewise I will receive a warning for yours.
 % Set the path here based on what type of computer, and then use it to add
 % the path and then later to set the import string.
-if computer('arch') == 'maci64'
-    pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/'
+if strcmp (computer('arch'),'maci64') 
+    pec_data_path2 = '~/Box Sync/Nasa Flight Data/PEC Study data/'
 else
-    pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\'
+    pec_data_path2 = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\'
 end
-addpath(pec_data_path);
+addpath(pec_data_path2);
 
             %======Additional Paths 
             addpath('../SharedDataExport/');
@@ -48,7 +48,7 @@ SubL= {'04' '05' '06' '07' '08' '09' '10' '11' '12' '13' '15' '16' ...
        Timing=0:120:600;
        % Data Matrix Holdern
        TimeNum=length(Timing)-1; 
-       DataM=zeros(TimeNum*49*3*3,78)*nan;
+       DataM=zeros(TimeNum*49*3*3,108)*nan;
 % ================================================================
 % ============= R-R Intervals ====================================
 A=zeros(49,2); 
@@ -67,16 +67,16 @@ for j=1:length(STUDY)
         % This if state is only here to adjust for the Cog and CTF 
                 if j==1 
                     
-                    B=[pec_data_path '*' SubL{S} '*' STUDY{j} '*' '']
+                    B=[pec_data_path2 '*' SubL{S} '*' STUDY{j} '*' '']
                     Files=dir(B);
                     Test=1;
                           if isempty(Files)
-                             B=[pec_data_path '*' SubL{S} '*'  'Cog*' '']
+                             B=[pec_data_path2 '*' SubL{S} '*'  'Cog*' '']
                              Files=dir(B);
                              Test=2; 
                           end 
                 else
-                     B=[pec_data_path '*' SubL{S} '*' STUDY{j} '*' '']
+                     B=[pec_data_path2 '*' SubL{S} '*' STUDY{j} '*' '']
                     Files=dir(B);
                     Test=j+1;
                 end 
@@ -99,7 +99,7 @@ for j=1:length(STUDY)
                 Data(:,36)=Data(:,7);
                 TempEKG = filtfilt(HP,Data(:,7));
                 Data(:,7)= filtfilt(LP,TempEKG);
-                DemoTemp=Demo([2,6,7,8,9,10],:); % Age, Total Flight Hours, Total Flight Years, HRMax,BMI, Gender (f=1,m=2);
+                DemoTemp=Demo(S,[2,6,7,8,9,10]); % Age, Total Flight Hours, Total Flight Years, HRMax,BMI, Gender (f=1,m=2);
                 
                 if (Protocol<='D')
                    Proto=1;
