@@ -8,10 +8,11 @@ clc
 % extension. Just use your extension below mine and you will just receive a
 % warning for mine. Likewise I will receive a warning for yours. 
 if computer('arch') == 'maci64'
-    addpath('~/Box Sync/Nasa Flight Data/PEC Study data');
+    pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data';
 else
-    addpath('C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data');  
+    pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\';
 end
+addpath(pec_data_path);
 
             %======Additional Paths 
             addpath('../SharedDataExport/');
@@ -64,16 +65,16 @@ for j=1:length(STUDY)
         % This if state is only here to adjust for the Cog and CTF 
                 if j==1 
                     
-                    B=['C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\*' SubL{S} '*' STUDY{j} '*' '']
+                    B=[pec_data_path '*' SubL{S} '*' STUDY{j} '*' '']
                     Files=dir(B);
                     Test=1;
                           if isempty(Files)
-                             B=['C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\*' SubL{S} '*'  'Cog*' '']
+                             B=[pec_data_path '*' SubL{S} '*'  'Cog*' '']
                              Files=dir(B);
                              Test=2; 
                           end 
                 else
-                     B=['C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\*' SubL{S} '*' STUDY{j} '*' '']
+                     B=[pec_data_path '*' SubL{S} '*' STUDY{j} '*' '']
                     Files=dir(B);
                     Test=j+1;
                 end 
