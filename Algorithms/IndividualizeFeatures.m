@@ -1,51 +1,48 @@
-function [ output_args ] = untitled( input_args )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
-% Function to individualize features.
+function [ FeatArr_indiv ] = IndividualizeFeatures( FeatArr, selected_features, diff_method, indiv_method )
+%IndividualizeFeatures Function to individualize features.
 % Function takes in array of features calculated from
 % DataMatrixTimingFeatureExtraction_VerB.m and scales HP features based on
 % their value during the first time instance.
 % INPUT: 
 %   DataM numerical array  
-%   column of interest 
-%   difference version 
-%   scaling version
+%   columns of interest 
+%   difference version (1 = y1 difference; 2 = lagged difference)
+%   scaling version (1 = ratio, 2 = percent change; 3 = subtraction)
 % OUPUT: DataM_scaled numerical array
 
 % -------------------- Set Case Statements Here: -------------------------
 % 
 % Should use test mode (values set outside of loop)?
-test_mode = 0;
+% test_mode = 0;
 % Should differences be taken only with the first time instance (case 1) or
 % with the previous time instance (case 2)?
-diff_version = 2;
+% diff_method = 2;
 % Should use which method of individual scaling (1, 2, 3)?
-use_method = 3;
+% indiv_method = 3;
 % Which version of the code should be used?
-version_num = 3;
+% version_num = 3;
 
-switch test_mode
-    case 1
-        i = 8;
-        j = 3;
-end
-
-% Loading the most recent DataM array from saved .mat file
-load('../DataExportMATLAB/DataMatrixSeta_ZScoreFullTime_M3_2016_03_24.mat');
+% switch test_mode
+%     case 1
+%         i = 8;
+%         j = 3;
+% end
+% 
+% % Loading the most recent DataM array from saved .mat file
+% load('../DataExportMATLAB/DataMatrixSeta_ZScoreFullTime_M3_2016_03_24.mat');
 
 % Get only MATB and non-Room Air trials call it FeatArr (FeatureArray)
-FeatArr = DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3,:);
+% FeatArr = DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3,:);
 [prev_num_rows, prev_num_cols] = size(FeatArr);
 
 % Script adds scaled versions of all features which will be appended to
 % the FeatArr
 % selected_features = [43:78]; % only HP features
 % Select all features (both Physio and HP)
-selected_features = [1:34 36 42:78];
+% selected_features = [1:34 36 42:78];
 [num_obs, num_feat] = size(FeatArr(:,...
     selected_features)); % should be 490 for MATB at 2min intervals and 72
-FeatArr = horzcat(FeatArr, nan*ones([num_obs num_feat]));
+FeatArr_indiv = horzcat(FeatArr, nan*ones([num_obs num_feat]));
 
 % Cycle through each participant
 for i = 1:49
@@ -53,14 +50,14 @@ for i = 1:49
     for j = 2:3
         % Select rows containing participant #, trial type, time instance
         % and HP features associated with participant i and trial j
-        tmp = FeatArr(FeatArr(:,39) == i & FeatArr(:,38) == j,...
+        tmp = FeatArr_indiv(FeatArr_indiv(:,39) == i & FeatArr_indiv(:,38) == j,...
             [39 38 37 selected_features]);
         % Select the Subject (39), Trial Type (38), and Time Instance (37)
         % cols to be used to find correct rows for replacement.
         tmp_subj = tmp(:,1:3);
         % Select the HP feature cols for calculation of scaled features.
         tmp_hp = tmp(:,4:end);
-        switch diff_version
+        switch diff_method
             case 1
                 % Save values of the HP features in the first time instance (row 1)
                 % for participant i, trial j by creating a matrix of the same size
@@ -75,7 +72,7 @@ for i = 1:49
         end
         % Scale array block of HP features (43:78) according to the
         % methods listed at end of this file.
-        switch use_method
+        switch indiv_method
             case 1
                 B = tmp_hp./tmp_1;
             case 2
@@ -85,7 +82,7 @@ for i = 1:49
         end
         % Get rows that correspond to the Subject, Trial Type and Time
         % Instance.
-        TF = ismember(FeatArr(:,[39 38 37]),tmp_subj, 'rows') ;
+        TF = ismember(FeatArr_indiv(:,[39 38 37]),tmp_subj, 'rows') ;
         % Check to ensure that only 5 rows have been selected 
         if sum(TF) > 5
             return
@@ -93,28 +90,11 @@ for i = 1:49
         % Insert the newly calculated scaled features (B) into the
         % predefined FeatArr block AFTER the unscaled features (i.e. into
         % cols 79 through the end).
-        FeatArr(TF, (prev_num_cols+1):(prev_num_cols+num_feat)) = B;
+        FeatArr_indiv(TF, (prev_num_cols+1):(prev_num_cols+num_feat)) = B;
     end
 end
 
-switch version_num
-    case 1
-        DataM_hp = FeatArr;
-        % Version 1: Only HP features, using method 3.
-        save('../DataExportMATLAB/mod_DataM_array_indiv_hp_feat_mthd_3.mat',...
-            'DataM_hp');
-    case 2
-        DataM_diff_y1 = FeatArr;
-        % Version 2: Physio and HP features, using method 3.
-        save('../DataExportMATLAB/mod_DataM_array_indiv_phys_hp_feat_mthd_3.mat',...
-            'DataM_diff_y1');
-    case 3
-        DataM_lag_diff = FeatArr;
-        % Version 3: Physio and HP features, diff version 2 (lagged difference)
-        % using difference method 3.
-        save('../DataExportMATLAB/mod_DataM_array_indiv_phys_hp_feat_lagged_mthd_3.mat',...
-            'DataM_lag_diff');
-end
+
 % -------- DESCRIPTION OF SCALING METHODS ---------------------------------
 %
 % Method 1: Each trial's time instances are scaled by the first time
