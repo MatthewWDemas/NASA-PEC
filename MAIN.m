@@ -6,11 +6,13 @@ clc
 %============== Initialize Data Set =============================
 % MATT: It seems like we are gonna have a problem if we don't have the same
 % extension. Just use your extension below mine and you will just receive a
-% warning for mine. Likewise I will receive a warning for yours. 
+% warning for mine. Likewise I will receive a warning for yours.
+% Set the path here based on what type of computer, and then use it to add
+% the path and then later to set the import string.
 if computer('arch') == 'maci64'
-    pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data';
+    pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/'
 else
-    pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\';
+    pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\'
 end
 addpath(pec_data_path);
 
