@@ -10,11 +10,11 @@ clc
   HP = designfilt('highpassfir', 'FilterOrder', 250, 'CutoffFrequency', 5.5, 'StopbandAttenuation', 90, 'SampleRate', 256);
 %============== Initialize Data Set =============================
 % pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
-pec_data_path = '~/Box Sync/Nasa Flight Data/PEC Study data/';
+pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
 addpath(pec_data_path);
 addpath('../SharedDataExport/');
-
-
+addpath('Data')
+addpath('Algorithms')
 
 Fs=256;
 load TimeStampsIn; 
@@ -230,4 +230,4 @@ for j=2:length(STUDY)
     end 
 end 
 toc 
-save('DataMatrixSeta_ZScoreFullTime_M3_2016_03_24')
+save('Data\DataMatrixSeta_ZScoreFullTime_M3_2016_04_08.mat')
