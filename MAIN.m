@@ -237,11 +237,7 @@ for j=1:length(STUDY)
         end 
     end 
 end 
-
-% Individualize Features y1 diff (DataB)
-% DataM_indiv = IndividualizeFeatures(DataM, [1:34 36 42:78], 1, 3);
-% Individualize Features lag diff (DataC)
-% DataM_indiv = IndividualizeFeatures(DataM_indiv, [1:34 36 42:78], 2, 3);
-
 toc 
-save('Data\DataMatrixSeta_ZScoreFullTime_M3_2016_04_08.mat')
+save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_08_v2.mat')
+
+
