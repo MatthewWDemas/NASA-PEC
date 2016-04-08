@@ -22,7 +22,7 @@ addpath(pec_data_path);
 %-------------------------------------------------------------------------
 % Loading Mat Files 
 %-------------------------------------------------------------------------
- load DemoDataV2;  % Demographic Data
+ load DemoFinal;  % Demographic Data
  load TimeStampsIn; 
  load PerformanceCFTMATB;
  %----Filter Design for the EKG Signals-----------------------------------
@@ -97,7 +97,7 @@ for j=1:length(STUDY)
                 Data(:,36)=Data(:,7);
                 TempEKG = filtfilt(HP,Data(:,7));
                 Data(:,7)= filtfilt(LP,TempEKG);
-                
+                DemoTemp=Demo([2,6,7,8,9,10],:); % Age, Total Flight Hours, Total Flight Years, HRMax,BMI, Gender (f=1,m=2);
                 
                 if (Protocol<='D')
                    Proto=1;
@@ -120,7 +120,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                          % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),CompPerform,Fs,Timing,Run,S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);
                          %----------------------------------------------
                     elseif Run==2;  % NON HYPOXIC 
                          %---------- Data Preprocess -------------------
@@ -141,7 +141,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                           % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),CompPerform,Fs,Timing,Run,S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);
                     elseif Run==3;  % HYPOXIC
                          %---------- Data Preprocess -------------------
                          [PtLoc1,PtLoc2,ErrorI] = PreprocessingPoints(HypoxiaS{S,j+1},Data(:,27),Fs);
@@ -161,7 +161,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                           % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),CompPerform,Fs,Timing,Run,S,Test,Proto);                      
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);                      
                     end 
 
                 elseif (Protocol>'D')
@@ -185,7 +185,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                          % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),CompPerform,Fs,Timing,Run,S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);
                     elseif Run==2;  % HYPOXIC 
                        %---------- Data Preprocess -------------------
                        [PtLoc1,PtLoc2,ErrorI] = PreprocessingPoints(HypoxiaS{S,j+1},Data(:,27),Fs);
@@ -205,7 +205,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                           % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),CompPerform,Fs,Timing,(Run+1),S,Test,Proto);          
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,(Run+1),S,Test,Proto);          
                     elseif Run==3;   %Non HYPOXIC 
                        %---------- Data Preprocess -------------------                       
                        [PtLoc1,PtLoc2,ErrorI] = PreprocessingPoints(NonHypoxiaS{S,j+1},Data(:,27),Fs);
@@ -225,7 +225,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                          % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),CompPerform,Fs,Timing,(Run-1),S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,(Run-1),S,Test,Proto);
                     end         
                            
                 end 

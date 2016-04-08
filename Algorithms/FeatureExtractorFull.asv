@@ -211,9 +211,8 @@ FeatureM=zeros(length(Timing)-1,5);
         FeatureM(i,79:84)=DemoTemp;   % Age, Total Flight Hours, Total Flight Years, HRMax,BMI, Gender (f=1,m=2);
         FeatureM(i,85)=((Pt2-Pt1)/TL)/DempTemp(4) ; % Intensity from Average HR/MAx HR 
         FeatureM(i,86)=BMI*FeatureM(i,3); % BMI * HR Entropy
-        FeatureM(i,87)=FeatureM(i,3)*DempTemp(2); % HR Entropy Total Flight Hours 
-        FeatureM(i,87)=FeatureM(i,3)*DempTemp(1);
-        FeatureM
+        FeatureM(i,87)=FeatureM(i,3)*D
+        
         
         end 
 end
