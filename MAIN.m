@@ -7,8 +7,12 @@ clc
 % MATT: It seems like we are gonna have a problem if we don't have the same
 % extension. Just use your extension below mine and you will just receive a
 % warning for mine. Likewise I will receive a warning for yours. 
-addpath('C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data');  
-%addpath('ADD YOUR PATH HERE MATT ');  
+if computer('arch') == 'maci64'
+    addpath('~/Box Sync/Nasa Flight Data/PEC Study data');
+else
+    addpath('C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data');  
+end
+
             %======Additional Paths 
             addpath('../SharedDataExport/');
             addpath('Data')
