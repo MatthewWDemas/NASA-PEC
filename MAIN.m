@@ -3,27 +3,28 @@ close all
 clc 
 
 
-
-
-%-----------------------------------------------------------------
-  LP = designfilt('lowpassfir', 'FilterOrder', 100, 'CutoffFrequency', 30, 'StopbandAttenuation', 80, 'SampleRate', 256);
-  HP = designfilt('highpassfir', 'FilterOrder', 250, 'CutoffFrequency', 5.5, 'StopbandAttenuation', 90, 'SampleRate', 256);
 %============== Initialize Data Set =============================
-% pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
-pec_data_path = 'C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data';
-addpath(pec_data_path);
-addpath('../SharedDataExport/');
-addpath('Data')
-addpath('Algorithms')
-
-Fs=256;
-load TimeStampsIn; 
+% MATT: It seems like we are gonna have a problem if we don't have the same
+% extension. Just use your extension below mine and you will just receive a
+% warning for mine. Likewise I will receive a warning for yours. 
+addpath('C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data');  
+%addpath('ADD YOUR PATH HERE MATT ');  
+            %======Additional Paths 
+            addpath('../SharedDataExport/');
+            addpath('Data')
+            addpath('Algorithms')
 
 %-------------------------------------------------------------------------
- load DemoDataNumerical;
- 
+% Loading Mat Files 
 %-------------------------------------------------------------------------
-load PerformanceCFTMATB;
+ load DemoDataNumerical;  % Demographic Data
+ load TimeStampsIn; 
+ load PerformanceCFTMATB;
+ %----Filter Design for the EKG Signals-----------------------------------
+  Fs=256;
+  LP = designfilt('lowpassfir', 'FilterOrder', 100, 'CutoffFrequency', 30, 'StopbandAttenuation', 80, 'SampleRate', Fs);
+  HP = designfilt('highpassfir', 'FilterOrder', 250, 'CutoffFrequency', 5.5, 'StopbandAttenuation', 90, 'SampleRate', Fs);
+%-------------------------------------------------------------------------\
 % Cell Structure [CFT, COGS, MATB, SIM] % Note: No data for cogs and sim
 % IN each cell {RA,SL,15k}
 %--------------------------------------------------------'04' '05' '06' '07' '08' '09' '10' '11' '12' '13' '15' '16' ...
@@ -53,22 +54,22 @@ STUDY={'CFT','MATB','SIM'};
 
 njn=1;
 tic 
-for j=2:length(STUDY)
+for j=1:length(STUDY)
     for S=1:length(SubL);
                    
         % This if state is only here to adjust for the Cog and CTF 
                 if j==1 
                     
-                    B=['' pec_data_path '*' SubL{S} '*' STUDY{j} '*' '']
+                    B=['C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\*' SubL{S} '*' STUDY{j} '*' '']
                     Files=dir(B);
                     Test=1;
                           if isempty(Files)
-                             B=['' pec_data_path '*' SubL{S} '*'  'Cog*' '']
+                             B=['C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\*' SubL{S} '*'  'Cog*' '']
                              Files=dir(B);
                              Test=2; 
                           end 
                 else
-                     B=['' pec_data_path '*' SubL{S} '*' STUDY{j} '*' '']
+                     B=['C:\Users\Nick1Nap\Box Sync\Nasa Flight Data\PEC Study data\*' SubL{S} '*' STUDY{j} '*' '']
                     Files=dir(B);
                     Test=j+1;
                 end 
