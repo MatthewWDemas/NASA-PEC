@@ -11,7 +11,7 @@ DataM_matb_nora = DataM(DataM(:,40) == 3 & DataM(:, 38) ~= 1, :);
 %             [39 38 37 selected_features]);
 
 % Individualize Features y1 diff (DataB)
-DataM_indivB = IndividualizeFeatures(DataM_matb_nora, [1:34 36 42:78 84:108], 1, 3);
+DataM_indivB = IndividualizeFeatures(DataM_matb_nora, [1:34 36 42:78 85:108], 1, 3);
 
 figure;
 subplot(1,2,1)
@@ -25,8 +25,11 @@ figure;
 histogram(DataM_indivC(:,205))
 
 % Individualize Features lag diff (DataC)
-DataM_indivC = IndividualizeFeatures(DataM_indiv, [1:34 36 42:78], 2, 3);
+DataM_indivC = IndividualizeFeatures(DataM_matb_nora, [1:34 36 42:78 85:108], 2, 3);
 
 DataM_indiv = horzcat(DataM_indivB, DataM_indivC(:,109:end));
 
-save('./Data/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat', 'DataM_indiv')
+DataM_3_feat_version = DataM_indiv;
+
+save('./Data/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat', 'DataM_3_feat_version', 'DataM_indivB', 'DataM_indivC')
+save('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat', 'DataM_3_feat_version')
