@@ -150,7 +150,8 @@ FeatureM=zeros(length(Timing)-1,5);
                 Temp=Data(R_index(Pt1:Pt2),4); 
                 FeatureM(i,36)=mean(Temp(~(Temp==0)));
                 O2var=var(Temp(~(Temp==0)));
-        %---------- Time Instance -------------------
+                O2Mu=mean(Temp(~(Temp==0)));
+        %---------- Time Instance -------------;------
                 FeatureM(i,37)=i; 
         %---------- Type of Run (Train,NonHypoxic, Hypoxic)------------------
                 FeatureM(i,38)=RunHTnH; 
@@ -210,31 +211,41 @@ FeatureM=zeros(length(Timing)-1,5);
         
        %------------Demographics---------------------------------------------------
         FeatureM(i,79:84)=DemoTemp;   % Age, Total Flight Hours, Total Flight Years, HRMax,BMI, Gender (f=1,m=2);
-        FeatureM(i,85)=((Pt2-Pt1)/TL)/DemoTemp(4) ; % Intensity from Average HR/MAx HR 
-        FeatureM(i,86)=DemoTemp(5)*FeatureM(i,3); % BMI * HR Entropy
-        FeatureM(i,87)=FeatureM(i,3)*DemoTemp(1); % HR Entropy and AGE 
-        FeatureM(i,88)=FeatureM(i,3)*DemoTemp(2); % HR Entropy Total Flight Hours 
-        FeatureM(i,89)=FeatureM(i,21)*((Pt2-Pt1)/TL)/DemoTemp(4) ;  % HR Intensity and Complexity of Respiration Vol 
-        FeatureM(i,90)=FeatureM(i,31)*DemoTemp(5) ; % Coupling of RR and Respiration * BMI 
-        FeatureM(i,91)=FeatureM(i,31)*DemoTemp(4) ; % Coupling of RR and Respiration *Total FLight HOURS
-        FeatureM(i,92)=FeatureM(i,31)*DemoTemp(5)*DemoTemp(1) ; % Coupling of RR and Respiration * BMI * Age 
-        FeatureM(i,93)=FeatureM(i,31)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2);  % Coupling of RR and Respiration * BMI * Age * Flight Hours 
-        FeatureM(i,94)=FeatureM(i,31)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2)*(((Pt2-Pt1)/TL)/DemoTemp(4) );  % Coupling of RR and Respiration * BMI * Age * Flight Hours* Intensity 
-        FeatureM(i,95)=FeatureM(i,3)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2)*(((Pt2-Pt1)/TL)/DemoTemp(4) );  % HR complexity * BMI * Age * Flight Hours* Intensity 
-        FeatureM(i,96)=FeatureM(i,3)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2);  % Coupling of RR and Respiration * BMI * Age * Flight Hours 
-        FeatureM(i,97)=FeatureM(i,3)*DemoTemp(5)*DemoTemp(1); 
+        FeatureM(i,85)=((Pt2-Pt1)./TL)./DemoTemp(4) ; % Intensity from Average HR/MAx HR 
+        FeatureM(i,86)=DemoTemp(5).*FeatureM(i,3); % BMI * HR Entropy
+        FeatureM(i,87)=FeatureM(i,3).*DemoTemp(1); % HR Entropy and AGE 
+        FeatureM(i,88)=FeatureM(i,3).*DemoTemp(2); % HR Entropy Total Flight Hours 
+        FeatureM(i,89)=FeatureM(i,21).*((Pt2-Pt1)/TL)/DemoTemp(4) ;  % HR Intensity and Complexity of Respiration Vol 
+        FeatureM(i,90)=FeatureM(i,31).*DemoTemp(5) ; % Coupling of RR and Respiration * BMI 
+        FeatureM(i,91)=FeatureM(i,31).*DemoTemp(4) ; % Coupling of RR and Respiration *Total FLight HOURS
+        FeatureM(i,92)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1) ; % Coupling of RR and Respiration * BMI * Age 
+        FeatureM(i,93)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2);  % Coupling of RR and Respiration * BMI * Age * Flight Hours 
+        FeatureM(i,94)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2)*(((Pt2-Pt1)./TL)./DemoTemp(4) );  % Coupling of RR and Respiration * BMI * Age * Flight Hours* Intensity 
+        FeatureM(i,95)=FeatureM(i,3).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2)*(((Pt2-Pt1)./TL)./DemoTemp(4) );  % HR complexity * BMI * Age * Flight Hours* Intensity 
+        FeatureM(i,96)=FeatureM(i,3).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2);  % Coupling of RR and Respiration * BMI * Age * Flight Hours 
+        FeatureM(i,97)=FeatureM(i,3).*DemoTemp(5).*DemoTemp(1); 
         
-        FeatureM(i,98)=O2var*DemoTemp(5)*DemoTemp(1) ; % O2var  * BMI * Age 
-        FeatureM(i,99)=O2var*DemoTemp(5)*DemoTemp(1)*DemoTemp(2);  % O2var  * BMI * Age * Flight Hours 
-        FeatureM(i,100)=O2var*DemoTemp(5)*DemoTemp(1)*DemoTemp(2)*(((Pt2-Pt1)/TL)/DemoTemp(4) );  % O2var * BMI * Age * Flight Hours* Intensity 
-        FeatureM(i,101)=O2var*DemoTemp(5)*DemoTemp(1)*DemoTemp(2)*(((Pt2-Pt1)/TL)/DemoTemp(4) );  % O2var * BMI * Age * Flight Hours* Intensity 
-        FeatureM(i,102)=O2var*DemoTemp(5)*DemoTemp(1)*DemoTemp(2);  % O2var * BMI * Age * Flight Hours 
-        FeatureM(i,103)=FeatureM(i,36)*DemoTemp(5)*DemoTemp(1); 
-        FeatureM(i,104)=FeatureM(i,36)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2)*(((Pt2-Pt1)/TL)/DemoTemp(4) );  % O2var  * BMI * Age * Flight Hours* Intensity 
-        FeatureM(i,105)=FeatureM(i,36)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2)*(((Pt2-Pt1)/TL)/DemoTemp(4) );  % O2var * BMI * Age * Flight Hours* Intensity 
-        FeatureM(i,106)= FeatureM(i,36)*DemoTemp(5)*DemoTemp(1)*DemoTemp(2);  % O2var  * BMI * Age * Flight Hours 
-        FeatureM(i,107)= FeatureM(i,36)*DemoTemp(5)*DemoTemp(1);   % O2var    * BMI * Age 
-        FeatureM(i,108)=O2var;
+        FeatureM(i,98)=O2var.*DemoTemp(5).*DemoTemp(1) ; % O2var  * BMI * Age 
+        FeatureM(i,99)=O2var.*DemoTemp(5).*DemoTemp(1).*DemoTemp(2);  % O2var  * BMI * Age * Flight Hours 
+        FeatureM(i,100)=O2var.*DemoTemp(5).*DemoTemp(1).*DemoTemp(2).*(((Pt2-Pt1)/TL)./DemoTemp(4) );  % O2var * BMI * Age * Flight Hours* Intensity 
+        FeatureM(i,101)=O2var.*DemoTemp(5).*DemoTemp(1).*DemoTemp(2).*(((Pt2-Pt1)/TL)./DemoTemp(4) ).*O2Mu;  % O2var * BMI * Age * Flight Hours* Intensity 
+        FeatureM(i,102)=O2var.*DemoTemp(5).*DemoTemp(1).*DemoTemp(2).*O2Mu;  % O2var * BMI * Age * Flight Hours * O2Mu
+        FeatureM(i,103)=FeatureM(i,36).*DemoTemp(5)*DemoTemp(1); 
+        FeatureM(i,104)=FeatureM(i,36).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2)*(((Pt2-Pt1)./TL)./DemoTemp(4) );  % O2var  * BMI * Age * Flight Hours* Intensity 
+        FeatureM(i,105)=FeatureM(i,36).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2).*(((Pt2-Pt1)./TL)./DemoTemp(4) );  % O2var * BMI * Age * Flight Hours* Intensity 
+        FeatureM(i,106)= FeatureM(i,36).*DemoTemp(5).*DemoTemp(1).*DemoTemp(2);  % O2var  * BMI * Age * Flight Hours 
+        FeatureM(i,107)= FeatureM(i,36).*DemoTemp(5).*DemoTemp(1);   % O2var    * BMI * Age 
+        FeatureM(i,108)=O2var;   
+        %-----More interactions terms
+        FeatureM(i,109)=DemoTemp(5).*FeatureM(i,3).*O2var.*DemoTemp(2); % BMI * HR Entropy
+        FeatureM(i,110)=FeatureM(i,3).*DemoTemp(1).*O2var.*DemoTemp(2); % HR Entropy and AGE 
+        FeatureM(i,111)=FeatureM(i,3).*O2var.*DemoTemp(2); % HR Entropy Total Flight Hours 
+        FeatureM(i,112)=FeatureM(i,21).*((Pt2-Pt1)/TL)/DemoTemp(4).*O2var.*DemoTemp(2) ;  % HR Intensity and Complexity of Respiration Vol 
+        FeatureM(i,113)=FeatureM(i,31).*DemoTemp(5).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI 
+        FeatureM(i,113)=FeatureM(i,31).*DemoTemp(4).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration *Total FLight HOURS
+        FeatureM(i,114)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI * Age 
+        
+        
         end 
 end
 
