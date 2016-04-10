@@ -1,7 +1,9 @@
 % --------- FROM CASE 1 ------------------------------
-load('../DataExportMATLAB/DataM_3_feat_version_v1_2016_04_04.mat')
+% load('../DataExportMATLAB/DataM_3_feat_version_v1_2016_04_04.mat')
+load('../DataExportShared/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat')
 
-DataM = DataM_3_feat_version;
+% DataM = DataM_3_feat_version;
+DataM = DataM_indiv;
 
 %--------------- Raw Scores ------------------------------
 DataM_noRA = DataM(DataM(:,38) ~= 1 & DataM(:,40) == 3, :);
@@ -15,6 +17,11 @@ hp_deriv = [49 50 54 61 62 66 73 74 78];
 
 physio_raw = [1:34 36 42];
 hp_raw = [43:78];
+% physio_y1diff = [79:114];
+% hp_y1diff = [115:150];
+% physio_lagdiff = [151:186];
+% hp_lagdiff = [187:222];
+
 physio_y1diff = [79:114];
 hp_y1diff = [115:150];
 physio_lagdiff = [151:186];
