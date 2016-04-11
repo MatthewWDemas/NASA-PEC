@@ -11,6 +11,7 @@ Indicators = Data(:, [39 41 40 38 37]);
 % Tracking Mean
 model1_col = [40 45 46 47 48 56 57 58];
 model1_feat = zscore(PhysioA(:, model1_col));
+model1_resp_raw = zscore(HP_A(:, 25));
 model1_resp = sign(zscore(HP_A(:, 25)));
 model1_resp_nn = model1_resp > 0;
 model1 = horzcat(model1_feat, model1_resp);
@@ -41,11 +42,23 @@ for i = 1:8
     end
 end
 
+figure
+k = 0;
+for i = 1:8
+        k = k + 1;
+        subplot(4,2,k)
+        gscatter(model1_resp_raw, model1_feat(:,i), Indicators(:,1))
+        plot_title = strcat('By Subject:', 'Mean Tracking vs. ', num2str(model1_col(i)));
+        title(plot_title)
+        legend off
+end
 
-%%
+%% Model 1 Filter 1
 % 
 % * There are a few clusters of participants (22 and 23) that are clearly
-% not part of the main cluster in the scatter plots.
+% not part of the main cluster in the scatter plots (for physiological
+% variables)
+% * There are number of disperse performances (22, 23, 7, 31, 11, 48)
 % 
 good_subj1 = ~(Indicators(:,1) == 22 | Indicators(:,1) == 23);
 
@@ -64,7 +77,7 @@ for i = 1:8
 end
 
 
-%%
+%% Model 1, Filter 2
 % 
 % * There are a few data points of participants (2, 33 and 45) that are
 % seemingly out of place.
@@ -103,6 +116,49 @@ for i = 1:8
         colormap('colorcube')
     end
 end
+
+%% Model 1, Filter 3
+% 
+% * There are a few data points of participants (2, 33 and 45) that are
+% seemingly out of place.
+% 
+good_subj3 = ~(Indicators(:,1) == 22 | Indicators(:,1) == 23 | ...
+    Indicators(:,1) == 2 | Indicators(:,1) == 33 |...
+    Indicators(:,1) == 45 | Indicators(:,1) == 7 | Indicators(:,1) == 11 |...
+    Indicators(:,1) == 48);
+
+model1_col = [40 45 46 47 48 56 57 58];
+model1_feat_f3 = zscore(PhysioA(good_subj3, model1_col));
+model1_resp_raw_f3 = zscore(HP_A(good_subj3, 25));
+model1_resp_f3 = sign(zscore(HP_A(good_subj3, 25)));
+model1_resp_nn_f3 = model1_resp_f3 > 0;
+model1_f3 = horzcat(model1_feat, model1_resp);
+
+tabulate(model1_resp_f3)
+
+figure
+k = 0;
+for i = 1:8
+    for j = i+1:8
+        k = k + 1;
+        subplot(7,4,k)
+        gscatter(model1_feat_f3(:,i), model1_feat_f3(:,j), model1_resp_nn_f3)
+        plot_title = strcat(num2str(model1_col(i)), '--', num2str((model1_col(j))));
+        title(plot_title)
+    end
+end
+
+figure
+k = 0;
+for i = 1:8
+        k = k + 1;
+        subplot(4,2,k)
+        gscatter(model1_resp_raw_f3, model1_feat_f3(:,i), Indicators(good_subj3,1))
+        plot_title = strcat('By Subject:', 'Mean Tracking vs. ', num2str(model1_col(i)));
+        title(plot_title)
+        legend off
+end
+
 
 %% Model 2
 % Tracking Mean
