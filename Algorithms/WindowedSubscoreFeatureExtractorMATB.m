@@ -10,7 +10,7 @@ function [ output ] = WindowedSubscoreFeatureExtractorMATB( Data, S, ...
 %   Original data contained a header row, new data does not.
 % Temp=Data(2:end,S);
 Temp=Data(:,S);
-Temp=Temp(~isnan(Temp));
+% Temp=Temp(~isnan(Temp));
 if ~isempty(Temp)
     % Sampling at 5 seconds: This is the time interval.
     DT=length(Temp)*5;
