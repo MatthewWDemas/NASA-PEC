@@ -3,19 +3,36 @@ close all
 clc 
 
 %load DataM_3_feat_version_v1_2016_04_04
-load DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08
+% load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat')
+% load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_02.mat')
+load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_03.mat')
+
+
 Data=DataM_3_feat_version; 
 clear DataM_3_feat_version; 
 
 %-------------------------------------
-Indictors=Data(:,[39,41,40,38,37]);  % Subject , Protocol , Task(Matb,sim,Cft), Hypoxic, Time
+% Subject , Protocol , Task(Matb,sim,Cft), Hypoxic, Time,
+% 
+% ------------- 109: Comm: Time Index Offset
+% ------------- 110: Comm: Num Missing Values per time interval
+% ------------- 111: ResMan: Time Index Offset
+% ------------- 112: ResMan: Num Missing Values per time interval
+% ------------- 113: Tracking: Time Index Offset
+% ------------- 114: Tracking: Num Missing Values per time interval
+% ------------- 115: The Task Form Number from filename
+% ------------- 116: Number of Comm Events Directed at Pilot
+% ------------- 117: Number of Comm Events Directed at Other Ships
+% ------------- 118: Number of ResMan Failures
+% ------------- 119: Total Number of Events (col116+col117+col118)
+Indictors=Data(:,[39,41,40,38,37,35,109:119]);  
 %----- Removing the first minute ------
 TimeRem=~(Indictors(:,5)==1);  % Indictor for first minute
 AntiData=Data(~TimeRem,:);
 Data=Data(TimeRem,:);
 Indictors=Indictors(TimeRem,:); % Reform Indictors 
 % ----- Removal of Subjects ----------
-TimeRem=~(Indictors(:,1)==12);  % Indictor Subject 15 ..Participate 12
+TimeRem=~(Indictors(:,1)==12);  % Indictor Subject 16 ..Participate 12
 Data=Data(TimeRem,:);
 AntiData=[AntiData;Data(~TimeRem,:)];
 %-------------------------------------
@@ -28,19 +45,36 @@ AntiData=[AntiData;Data(~InfData,:)];
 %-------------------------------------
 
 
-
+% Data Ranges prior to addition of 11 new features
+%
+% PhysioA=Data(:,[1:34,36,42,79:84,85:108])+.0001; 
+% PhysioB=Data(:,[109:144,79:84,181:204])+.0001;
+% PhysioC=Data(:,[205:240,79:84,277:300])+.0001;
+% 
+% HP_A=Data(:,43:78)+.0001;
+% HP_B=Data(:,145:180)+.0001;
+% HP_C=Data(:,241:276)+.0001;
+%
 PhysioA=Data(:,[1:34,36,42,79:84,85:108])+.0001; 
-PhysioB=Data(:,[109:144,79:84,181:204])+.0001;
-PhysioC=Data(:,[205:240,79:84,277:300])+.0001;
+rangePhysioB = [109:144,79:84,181:204] + 11;
+PhysioB=Data(:,rangePhysioB)+.0001;
+rangePhysioC = [205:240,79:84,277:300] + 11;
+PhysioC=Data(:,rangePhysioC)+.0001;
 
 HP_A=Data(:,43:78)+.0001;
-HP_B=Data(:,145:180)+.0001;
-HP_C=Data(:,241:276)+.0001;
+rangeHP_B = [145:180] + 11;
+HP_B=Data(:,rangeHP_B)+.0001;
+rangeHP_C = [241:276] + 11;
+HP_C=Data(:,rangeHP_C)+.0001;
 
 
 
 
-save('InputOutput_4_8_16')
+
+
+% save('InputOutput_v3_4_11_16')
+% save('../SharedDataExport/InputOutput_v4_5_2_16')
+save('../SharedDataExport/InputOutput_v5_5_3_16')
 % 
 % % 
 % % Metric=21;
