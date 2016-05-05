@@ -26,7 +26,8 @@ addpath(pec_data_path2);
 %-------------------------------------------------------------------------
  load DemoFinal;  % Demographic Data
  load TimeStampsIn; 
- load PerformanceCFTMATB;
+ load PerformanceCFTMATB; % CFT/MATB Performance Scores
+ 
  %----Filter Design for the EKG Signals-----------------------------------
   Fs=256;
   LP = designfilt('lowpassfir', 'FilterOrder', 100, 'CutoffFrequency', 30, 'StopbandAttenuation', 80, 'SampleRate', Fs);
@@ -47,8 +48,10 @@ SubL= {'04' '05' '06' '07' '08' '09' '10' '11' '12' '13' '15' '16' ...
        %-------------- Timing --------------------------------------
        Timing=0:120:600;
        % Data Matrix Holdern
-       TimeNum=length(Timing)-1; 
-       DataM=zeros(TimeNum*49*3*3,108)*nan;
+       TimeNum=length(Timing)-1;
+       DATAM_WIDTH = 119;
+       DataM=zeros(TimeNum*49*3*3,DATAM_WIDTH)*nan;
+       
 % ================================================================
 % ============= R-R Intervals ====================================
 A=zeros(49,2); 
@@ -61,7 +64,8 @@ STUDY={'CFT','MATB','SIM'};
 
 njn=1;
 tic 
-for j=1:length(STUDY)
+% for j=1:length(STUDY)
+for j=2:2 % MATB Only for the moment
     for S=1:length(SubL);
                    
         % This if state is only here to adjust for the Cog and CTF 
@@ -84,6 +88,19 @@ for j=1:length(STUDY)
                 TempName=Files(i).name;
                 Protocol=TempName(10);
                 Run= str2num(TempName(16)); % Baseline, Run1 , Run 3 Run2, 1
+                taskForm = TempName(end-4);
+                if taskForm == 'T'
+                    taskFormNumber = 0;
+                elseif taskForm == '1'
+                    taskFormNumber = 1;
+                elseif taskForm == '2'
+                    taskFormNumber = 2;
+                elseif taskForm == '3'
+                    taskFormNumber = 1;
+                else
+                    taskFormNumber = -1;
+                end
+                    
                 %============ Interruption ==================
                 if j==1 
                     if (S==7 && Run==1)
@@ -122,7 +139,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                          % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto,taskFormNumber);
                          %----------------------------------------------
                     elseif Run==2;  % NON HYPOXIC 
                          %---------- Data Preprocess -------------------
@@ -143,7 +160,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                           % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto,taskFormNumber);
                     elseif Run==3;  % HYPOXIC
                          %---------- Data Preprocess -------------------
                          [PtLoc1,PtLoc2,ErrorI] = PreprocessingPoints(HypoxiaS{S,j+1},Data(:,27),Fs);
@@ -163,7 +180,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                           % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);                      
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto,taskFormNumber);                      
                     end 
 
                 elseif (Protocol>'D')
@@ -187,7 +204,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                          % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,Run,S,Test,Proto,taskFormNumber);
                     elseif Run==2;  % HYPOXIC 
                        %---------- Data Preprocess -------------------
                        [PtLoc1,PtLoc2,ErrorI] = PreprocessingPoints(HypoxiaS{S,j+1},Data(:,27),Fs);
@@ -207,7 +224,7 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                           % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,(Run+1),S,Test,Proto);          
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,(Run+1),S,Test,Proto,taskFormNumber);          
                     elseif Run==3;   %Non HYPOXIC 
                        %---------- Data Preprocess -------------------                       
                        [PtLoc1,PtLoc2,ErrorI] = PreprocessingPoints(NonHypoxiaS{S,j+1},Data(:,27),Fs);
@@ -227,17 +244,26 @@ for j=1:length(STUDY)
                          % EKG=7, Respiration=8 OxygenCon=31,
                          % Run:(Train=1,NonHypoxic=2,Hypoxic=3),
                          % Subject:S, Study: j (Cft=1,Matb=2,SIM=3)
-                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,(Run-1),S,Test,Proto);
+                         [ FeatVect] = FeatureExtractorFull(Data(PtLoc1:PtLoc2,[7,8,31,33,36]),DemoTemp,CompPerform,Fs,Timing,(Run-1),S,Test,Proto,taskFormNumber);
                     end         
                            
                 end 
                 %--------- Feature Input ---------------
                 DataM(1+((njn-1)*TimeNum):(njn)*TimeNum,:) = FeatVect; 
                 njn=njn+1;
-        end 
+        end              
     end 
-end 
+end
+
+
+  
 toc 
-save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_08_v2.mat')
+% save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_08_v2.mat')
+% save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_28_v3.mat')
+% save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_29_v4.mat')
+% v5: NaNs removed on Time Instance Level, Unstacking Error Corrected
+% save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_29_v5.mat')
+% v6: v5 + Form Number Included for MATB event count feature
+save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_05_02_v6.mat')
 
 
