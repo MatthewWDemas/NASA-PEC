@@ -1,8 +1,8 @@
 function [ output] = PerformOrg(Data,Test,S,Time,Offset)
 
 Offset=-1*Offset;
-input_output=zeros(length(Time)-1,12)*nan;
-output=zeros(length(Time)-1,36)*nan;
+input_output=zeros(length(Time)-1,14)*nan;
+output=zeros(length(Time)-1,42)*nan;
 
 switch Test
     %---------------- CFT ------------------------------
@@ -32,7 +32,9 @@ switch Test
         output_track = WindowedSubscoreFeatureExtractorMATB(...
             Data{3}, S, Time, Offset, input_output);
         
-        output = horzcat(output_comm, output_resman, output_track);
+        output = horzcat(output_comm(:,1:12), output_resman(:,1:12),...
+            output_track(:,1:12), output_comm(:,13:14), output_resman(:,13:14),...
+            output_track(:,13:14));
     %---------------- SIM ------------------------------
     case 4
         output=output;

@@ -1,4 +1,4 @@
-function [ FeatureM ] = FeatureExtractorFull(Data,DemoTemp,Perform,Fs,Timing,RunHTnH,Subject,Study,Proto)
+function [ FeatureM ] = FeatureExtractorFull(Data,DemoTemp,Perform,Fs,Timing,RunHTnH,Subject,Study,Proto,taskFormNumber)
 %---------------------------------------------
 % Input Variable 
 %----------------------------------------------
@@ -6,6 +6,11 @@ function [ FeatureM ] = FeatureExtractorFull(Data,DemoTemp,Perform,Fs,Timing,Run
 % RunHTnH: The type of run that occured ( Training, NonHypoxic,Hypoxic,)
 % Subject: the particapte number related to the subject 
 % Proto: The order of the experiments (Protocols after D are Labeled 2, otherwise they are labeled 1)
+% taskFormNumber: The version of the task undertaken by subject:
+%                 Training = 0;
+%                 Version 1 = 1;
+%                 Version 2 = 2;
+%                 Error = -1;
 %---------------------------------------------
 % Data: Col1=EKG, Col2=Respiration, Col3=O2Cont
 %---------------------------------------------
@@ -14,6 +19,9 @@ function [ FeatureM ] = FeatureExtractorFull(Data,DemoTemp,Perform,Fs,Timing,Run
     % Column Labels: Col1=AveHR, Col2=SampEn, Col3=RespirVolEnt Col4=O2 ,
     % Col5= TimeInstance
     % Row is Timing Instance 
+
+load MATB_event_count_2min; % Event Counts for MATB forms 1 and 2
+
 FeatureM=zeros(length(Timing)-1,5); 
                 % HR COMPLEXITY TIMING 
                 ThresStd=.2;
@@ -244,9 +252,33 @@ FeatureM=zeros(length(Timing)-1,5);
         FeatureM(i,113)=FeatureM(i,31).*DemoTemp(5).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI 
         FeatureM(i,113)=FeatureM(i,31).*DemoTemp(4).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration *Total FLight HOURS
         FeatureM(i,114)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI * Age 
+         
+        % ------------- 115: Comm: Time Index Offset
+        % ------------- 116: Comm: Num Missing Values per time interval
+        % ------------- 117: ResMan: Time Index Offset
+        % ------------- 118: ResMan: Num Missing Values per time interval
+        % ------------- 119: Tracking: Time Index Offset
+        % ------------- 120: Tracking: Num Missing Values per time interval
+        FeatureM(i,115:120) = Perform(i,37:42);
         
+        % ------------- 121: The Task Form Number from filename
+        % -------------      MATBT = 0
+        % -------------      MATB1 = 1
+        % -------------      MATB2 = 2
+        FeatureM(i,121) = taskFormNumber;
         
-        end 
+        % ------------- 122: Number of Comm Events Directed at Pilot
+        % ------------- 123: Number of Comm Events Directed at Other Ships
+        % ------------- 124: Number of ResMan Failures
+        % ------------- 125: Total Number of Events (col116+col117+col118)
+        if taskFormNumber == 1
+            FeatureM(i, 122:125) = eventCountTimeInstanceMATB(i,3:6);
+        elseif taskFormNumber == 2
+            FeatureM(i, 122:125) = eventCountTimeInstanceMATB(i+5,3:6);
+        else
+            FeatureM(i, 122:125) = nan;
+        end
+
 end
 
 
