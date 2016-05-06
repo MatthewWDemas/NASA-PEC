@@ -5,7 +5,8 @@ clc
 %load DataM_3_feat_version_v1_2016_04_04
 % load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat')
 % load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_02.mat')
-load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_03.mat')
+% load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_03.mat')
+load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_05.mat')
 
 
 Data=DataM_3_feat_version; 
@@ -25,7 +26,10 @@ clear DataM_3_feat_version;
 % ------------- 117: Number of Comm Events Directed at Other Ships
 % ------------- 118: Number of ResMan Failures
 % ------------- 119: Total Number of Events (col116+col117+col118)
-Indictors=Data(:,[39,41,40,38,37,35,109:119]);  
+
+% New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
+% Indictors=Data(:,[39,41,40,38,37,35,109:119]);  
+Indictors=Data(:,[39,41,40,38,37,35,115:125]);  
 %----- Removing the first minute ------
 TimeRem=~(Indictors(:,5)==1);  % Indictor for first minute
 AntiData=Data(~TimeRem,:);
@@ -55,16 +59,29 @@ AntiData=[AntiData;Data(~InfData,:)];
 % HP_B=Data(:,145:180)+.0001;
 % HP_C=Data(:,241:276)+.0001;
 %
-PhysioA=Data(:,[1:34,36,42,79:84,85:108])+.0001; 
-rangePhysioB = [109:144,79:84,181:204] + 11;
+% PhysioA=Data(:,[1:34,36,42,79:84,85:108])+.0001; 
+PhysioA=Data(:,[1:34,36,42,79:84,85:114])+.0001; 
+% New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
+% (11 to 17)
+% rangePhysioB = [109:144,79:84,181:204] + 11;
+rangePhysioB = [109:144,79:84,181:204] + 17;
 PhysioB=Data(:,rangePhysioB)+.0001;
-rangePhysioC = [205:240,79:84,277:300] + 11;
+% New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
+% (11 to 17)
+% rangePhysioC = [205:240,79:84,277:300] + 11;
+rangePhysioC = [205:240,79:84,277:300] + 17;
 PhysioC=Data(:,rangePhysioC)+.0001;
 
 HP_A=Data(:,43:78)+.0001;
-rangeHP_B = [145:180] + 11;
+% New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
+% (11 to 17)
+% rangeHP_B = [145:180] + 11;
+rangeHP_B = [145:180] + 17;
 HP_B=Data(:,rangeHP_B)+.0001;
-rangeHP_C = [241:276] + 11;
+% New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
+% (11 to 17)
+% rangeHP_C = [241:276] + 11;
+rangeHP_C = [241:276] + 17;
 HP_C=Data(:,rangeHP_C)+.0001;
 
 
@@ -74,7 +91,8 @@ HP_C=Data(:,rangeHP_C)+.0001;
 
 % save('InputOutput_v3_4_11_16')
 % save('../SharedDataExport/InputOutput_v4_5_2_16')
-save('../SharedDataExport/InputOutput_v5_5_3_16')
+% save('../SharedDataExport/InputOutput_v5_5_3_16')
+save('../SharedDataExport/InputOutput_v6_5_5_16')
 % 
 % % 
 % % Metric=21;

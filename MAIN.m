@@ -49,7 +49,7 @@ SubL= {'04' '05' '06' '07' '08' '09' '10' '11' '12' '13' '15' '16' ...
        Timing=0:120:600;
        % Data Matrix Holdern
        TimeNum=length(Timing)-1;
-       DATAM_WIDTH = 119;
+       DATAM_WIDTH = 125;
        DataM=zeros(TimeNum*49*3*3,DATAM_WIDTH)*nan;
        
 % ================================================================
@@ -264,6 +264,8 @@ toc
 % v5: NaNs removed on Time Instance Level, Unstacking Error Corrected
 % save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_04_29_v5.mat')
 % v6: v5 + Form Number Included for MATB event count feature
-save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_05_02_v6.mat')
+% save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_05_02_v6.mat')
+% v7: v6 with new physio interactions interspersed in positions 109 to 114
+save('./Data/DataMatrixSeta_ZScoreFullTime_M3_2016_05_05_v7.mat')
 
 
