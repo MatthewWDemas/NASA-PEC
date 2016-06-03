@@ -6,7 +6,8 @@ clc
 % load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_04_08.mat')
 % load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_02.mat')
 % load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_03.mat')
-load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_05.mat')
+% load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_05.mat')
+load('../SharedDataExport/DataMatrixSeta_ZScoreFullTime_M3_indiv_2016_05_25.mat')
 
 
 Data=DataM_3_feat_version; 
@@ -60,28 +61,33 @@ AntiData=[AntiData;Data(~InfData,:)];
 % HP_C=Data(:,241:276)+.0001;
 %
 % PhysioA=Data(:,[1:34,36,42,79:84,85:108])+.0001; 
-PhysioA=Data(:,[1:34,36,42,79:84,85:114])+.0001; 
+% PhysioA=Data(:,[1:34,36,42,79:84,85:114])+.0001; 
+PhysioA=Data(:,[1:34,36,42,79:84,85:115])+.0001; 
 % New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
 % (11 to 17)
 % rangePhysioB = [109:144,79:84,181:204] + 11;
-rangePhysioB = [109:144,79:84,181:204] + 17;
+% rangePhysioB = [109:144,79:84,181:204] + 17;
+rangePhysioB = [127:162,79:84,199:229];
 PhysioB=Data(:,rangePhysioB)+.0001;
 % New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
 % (11 to 17)
 % rangePhysioC = [205:240,79:84,277:300] + 11;
-rangePhysioC = [205:240,79:84,277:300] + 17;
+% rangePhysioC = [205:240,79:84,277:300] + 17;
+rangePhysioC = [230:265,79:84,302:332];
 PhysioC=Data(:,rangePhysioC)+.0001;
 
 HP_A=Data(:,43:78)+.0001;
 % New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
 % (11 to 17)
 % rangeHP_B = [145:180] + 11;
-rangeHP_B = [145:180] + 17;
+% rangeHP_B = [145:180] + 17;
+rangeHP_B = [163:198];
 HP_B=Data(:,rangeHP_B)+.0001;
 % New Physio Interactions push the MATB Meta-Data Fields up by 6 positions
 % (11 to 17)
 % rangeHP_C = [241:276] + 11;
-rangeHP_C = [241:276] + 17;
+% rangeHP_C = [241:276] + 17;
+rangeHP_C = [266:301];
 HP_C=Data(:,rangeHP_C)+.0001;
 
 
@@ -92,7 +98,12 @@ HP_C=Data(:,rangeHP_C)+.0001;
 % save('InputOutput_v3_4_11_16')
 % save('../SharedDataExport/InputOutput_v4_5_2_16')
 % save('../SharedDataExport/InputOutput_v5_5_3_16')
-save('../SharedDataExport/InputOutput_v6_5_5_16')
+% Wrong Data Column Values!
+% save('../SharedDataExport/InputOutput_v6_5_5_16')
+% Wrong Data Column Values...again!
+% save('../SharedDataExport/InputOutput_v6_5_25_16')
+% Corrected Data Columns
+save('../SharedDataExport/InputOutput_v6_5_27_16')
 % 
 % % 
 % % Metric=21;

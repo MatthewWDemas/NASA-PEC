@@ -250,33 +250,33 @@ FeatureM=zeros(length(Timing)-1,5);
         FeatureM(i,111)=FeatureM(i,3).*O2var.*DemoTemp(2); % HR Entropy Total Flight Hours 
         FeatureM(i,112)=FeatureM(i,21).*((Pt2-Pt1)/TL)/DemoTemp(4).*O2var.*DemoTemp(2) ;  % HR Intensity and Complexity of Respiration Vol 
         FeatureM(i,113)=FeatureM(i,31).*DemoTemp(5).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI 
-        FeatureM(i,113)=FeatureM(i,31).*DemoTemp(4).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration *Total FLight HOURS
-        FeatureM(i,114)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI * Age 
+        FeatureM(i,114)=FeatureM(i,31).*DemoTemp(4).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration *Total FLight HOURS
+        FeatureM(i,115)=FeatureM(i,31).*DemoTemp(5).*DemoTemp(1).*O2var.*DemoTemp(2) ; % Coupling of RR and Respiration * BMI * Age 
          
-        % ------------- 115: Comm: Time Index Offset
-        % ------------- 116: Comm: Num Missing Values per time interval
-        % ------------- 117: ResMan: Time Index Offset
-        % ------------- 118: ResMan: Num Missing Values per time interval
-        % ------------- 119: Tracking: Time Index Offset
-        % ------------- 120: Tracking: Num Missing Values per time interval
-        FeatureM(i,115:120) = Perform(i,37:42);
+        % ------------- 116: Comm: Time Index Offset
+        % ------------- 117: Comm: Num Missing Values per time interval
+        % ------------- 118: ResMan: Time Index Offset
+        % ------------- 119: ResMan: Num Missing Values per time interval
+        % ------------- 120: Tracking: Time Index Offset
+        % ------------- 121: Tracking: Num Missing Values per time interval
+        FeatureM(i,116:121) = Perform(i,37:42);
         
-        % ------------- 121: The Task Form Number from filename
+        % ------------- 122: The Task Form Number from filename
         % -------------      MATBT = 0
         % -------------      MATB1 = 1
         % -------------      MATB2 = 2
-        FeatureM(i,121) = taskFormNumber;
+        FeatureM(i,122) = taskFormNumber;
         
-        % ------------- 122: Number of Comm Events Directed at Pilot
-        % ------------- 123: Number of Comm Events Directed at Other Ships
-        % ------------- 124: Number of ResMan Failures
-        % ------------- 125: Total Number of Events (col116+col117+col118)
+        % ------------- 123: Number of Comm Events Directed at Pilot
+        % ------------- 124: Number of Comm Events Directed at Other Ships
+        % ------------- 125: Number of ResMan Failures
+        % ------------- 126: Total Number of Events (col116+col117+col118)
         if taskFormNumber == 1
-            FeatureM(i, 122:125) = eventCountTimeInstanceMATB(i,3:6);
+            FeatureM(i, 123:126) = eventCountTimeInstanceMATB(i,3:6);
         elseif taskFormNumber == 2
-            FeatureM(i, 122:125) = eventCountTimeInstanceMATB(i+5,3:6);
+            FeatureM(i, 123:126) = eventCountTimeInstanceMATB(i+5,3:6);
         else
-            FeatureM(i, 122:125) = nan;
+            FeatureM(i, 123:126) = nan;
         end
 
 end

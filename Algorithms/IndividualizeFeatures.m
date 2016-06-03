@@ -41,8 +41,8 @@ function [ FeatArr_indiv ] = IndividualizeFeatures( FeatArr, selected_features, 
 % Select all features (both Physio and HP)
 % selected_features = [1:34 36 42:78];
 [num_obs, num_feat] = size(FeatArr(:,...
-    selected_features)); % should be 490 for MATB at 2min intervals and 72
-FeatArr_indiv = horzcat(FeatArr, nan*ones([num_obs num_feat]));
+    selected_features)) % should be 490 for MATB at 2min intervals and 72
+FeatArr_indiv = horzcat(FeatArr, nan*zeros([num_obs num_feat]));
 
 % Cycle through each participant
 for i = 1:49
@@ -82,10 +82,11 @@ for i = 1:49
         end
         % Get rows that correspond to the Subject, Trial Type and Time
         % Instance.
-        TF = ismember(FeatArr_indiv(:,[39 38 37]),tmp_subj, 'rows') ;
+        TF = ismember(FeatArr_indiv(:,[39 38 37]),tmp_subj, 'rows');
         % Check to ensure that only 5 rows have been selected 
         if sum(TF) > 5
-            return
+            B = NaN;
+            sum(TF)
         end
         % Insert the newly calculated scaled features (B) into the
         % predefined FeatArr block AFTER the unscaled features (i.e. into
